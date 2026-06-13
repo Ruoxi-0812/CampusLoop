@@ -714,9 +714,14 @@ similar to that of the hot-products-row.
     #ffffff;
   border-radius: 10px;
   display: flex;
+  gap: 56px;
   justify-content: space-between;
   margin: 42px 10% 22px;
-  padding: 38px 40px;
+  padding: 42px 52px;
+}
+
+.campusloop-hero-main {
+  max-width: 650px;
 }
 
 .campusloop-eyebrow {
@@ -821,7 +826,12 @@ similar to that of the hot-products-row.
 }
 
 .campusloop-auth-card {
-  min-width: 330px;
+  align-items: flex-start;
+  border-left: 1px solid rgba(63, 29, 130, 0.14);
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  padding-left: 44px;
 }
 
 .campusloop-auth-eyebrow {
@@ -845,7 +855,12 @@ similar to that of the hot-products-row.
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 18px;
+  margin-top: 16px;
+}
+
+.campusloop-auth-actions .campusloop-button {
+  height: 38px;
+  padding: 0 15px;
 }
 
 .campusloop-listings-header {
@@ -1096,6 +1111,7 @@ similar to that of the hot-products-row.
   .campusloop-hero {
     align-items: flex-start;
     flex-direction: column;
+    gap: 0;
     margin: 24px 16px 18px;
     padding: 24px;
   }
@@ -1116,8 +1132,10 @@ similar to that of the hot-products-row.
   }
 
   .campusloop-auth-card {
+    border-left: 0;
     margin-top: 20px;
     min-width: 0;
+    padding-left: 0;
     width: 100%;
   }
 
