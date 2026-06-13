@@ -381,7 +381,9 @@ header .navbar.sub-navbar nav a {
 }
 
 header .navbar.sub-navbar .controls {
+  align-items: center;
   display: flex;
+  gap: 14px;
   height: 60px;
 }
 
