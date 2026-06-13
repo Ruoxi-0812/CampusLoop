@@ -1,0 +1,112 @@
+{
+    "products": [
+        {
+            "id": "OLJCESPC7Z",
+            "name": "Used Calculus Textbook",
+            "description": "Gently used calculus textbook with light notes in the margins. Ideal for first-year math courses.",
+            "picture": "/static/img/products/campusloop/used-calculus-textbook.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 32,
+                "nanos": 990000000
+            },
+            "categories": ["textbooks", "math"]
+        },
+        {
+            "id": "66VCHSJNUP",
+            "name": "Campus Club Hoodie",
+            "description": "Pre-owned university hoodie in good condition. Cozy for late library nights and campus events.",
+            "picture": "/static/img/products/campusloop/campus-club-hoodie.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 24,
+                "nanos": 990000000
+            },
+            "categories": ["clothing", "campus"]
+        },
+        {
+            "id": "1YMWWN1N4O",
+            "name": "Used 24-inch Study Monitor",
+            "description": "Second-hand 24-inch monitor for dorm desks, coding projects, and remote classes.",
+            "picture": "/static/img/products/campusloop/study-desk-monitor.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 85,
+                "nanos": 990000000
+            },
+            "categories": ["electronics", "dorm"]
+        },
+        {
+            "id": "L9ECAV7KIM",
+            "name": "Commuter Bike",
+            "description": "Reliable used bike for getting across campus quickly. Includes a basic lock and bell.",
+            "picture": "/static/img/products/campusloop/commuter-bike.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 120,
+                "nanos": 990000000
+            },
+            "categories": ["transportation", "campus"]
+        },
+        {
+            "id": "2ZYFJ3GM2N",
+            "name": "Mini Dorm Fan",
+            "description": "Compact fan for dorm rooms and study corners. Works well and fits on a small desk.",
+            "picture": "/static/img/products/campusloop/mini-dorm-fan.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 14,
+                "nanos": 990000000
+            },
+            "categories": ["dorm", "appliances"]
+        },
+        {
+            "id": "0PUK6V6EV0",
+            "name": "Adjustable Desk Lamp",
+            "description": "Used LED desk lamp with adjustable brightness, perfect for evening study sessions.",
+            "picture": "/static/img/products/campusloop/adjustable-desk-lamp.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 16,
+                "nanos": 990000000
+            },
+            "categories": ["dorm", "study"]
+        },
+        {
+            "id": "LS4PSXUNUM",
+            "name": "Mechanical Keyboard",
+            "description": "Pre-owned compact keyboard for programming, note-taking, and late-night assignments.",
+            "picture": "/static/img/products/campusloop/mechanical-keyboard.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 39,
+                "nanos": 490000000
+            },
+            "categories": ["electronics", "study"]
+        },
+        {
+            "id": "9SIQT8TOJO",
+            "name": "Reusable Water Bottle",
+            "description": "Clean second-hand insulated bottle for classes, gym sessions, and long study days.",
+            "picture": "/static/img/products/campusloop/reusable-water-bottle.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 9,
+                "nanos": 490000000
+            },
+            "categories": ["campus", "essentials"]
+        },
+        {
+            "id": "6E92ZMYYFZ",
+            "name": "Intro CS Notes Bundle",
+            "description": "Printed notes and practice sheets from an intro computer science course.",
+            "picture": "/static/img/products/campusloop/intro-cs-notes-bundle.png",
+            "priceUsd": {
+                "currencyCode": "USD",
+                "units": 12,
+                "nanos": 990000000
+            },
+            "categories": ["textbooks", "computer-science"]
+        }
+    ]
+}
