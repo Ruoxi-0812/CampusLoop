@@ -825,8 +825,8 @@ similar to that of the hot-products-row.
   border: 1px solid #eee9e2;
   border-radius: 10px;
   box-shadow: 0 18px 44px rgba(37, 27, 47, 0.08);
-  max-width: 360px;
-  padding: 26px;
+  max-width: 330px;
+  padding: 24px;
 }
 
 .campusloop-auth-eyebrow {
@@ -840,7 +840,7 @@ similar to that of the hot-products-row.
 
 .campusloop-auth-card h2 {
   color: #251b2f;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 1.2;
   margin: 0;
