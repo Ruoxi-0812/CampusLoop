@@ -42,15 +42,13 @@
               <a href="#recent-listings" class="campusloop-button campusloop-button-secondary">Sell an item</a>
             </div>
           </div>
-          <div class="campusloop-hero-panel">
-            <div class="campusloop-hero-stats">
-              <span>9 active listings</span>
-              <span>Pickup around campus</span>
-            </div>
-            <div class="campusloop-hero-tags">
-              <span>Textbooks</span>
-              <span>Dorm</span>
-              <span>Electronics</span>
+          <div class="campusloop-auth-card">
+            <p class="campusloop-auth-eyebrow">Student account</p>
+            <h2>Save listings and sell your own items</h2>
+            <p>Sign in to track favorites, manage pickup messages, and create campus listings.</p>
+            <div class="campusloop-auth-actions">
+              <a href="{{ $.baseUrl }}/" class="campusloop-button campusloop-button-primary">Sign in</a>
+              <a href="{{ $.baseUrl }}/" class="campusloop-button campusloop-button-secondary">Create account</a>
             </div>
           </div>
         </section>
@@ -98,6 +96,8 @@
 
         </div>
 
+        <p class="campusloop-no-results" hidden>No listings match your search yet.</p>
+
         <!-- Footer for larger screens. -->
         <div class="row d-none d-lg-block home-desktop-footer-row">
           <div class="col-12 p-0">
@@ -111,6 +111,45 @@
   </div>
 
 </main>
+
+<script>
+  (function () {
+    const searchInput = document.getElementById('campusloop-search-input');
+    const cards = Array.from(document.querySelectorAll('.hot-product-card'));
+    const noResults = document.querySelector('.campusloop-no-results');
+    if (!searchInput || cards.length === 0) {
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const initialQuery = params.get('q') || '';
+    searchInput.value = initialQuery;
+
+    function applySearch() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+      cards.forEach(function (card) {
+        const text = card.textContent.toLowerCase();
+        const visible = query === '' || text.includes(query);
+        card.hidden = !visible;
+        if (visible) {
+          visibleCount += 1;
+        }
+      });
+      if (noResults) {
+        noResults.hidden = visibleCount !== 0;
+      }
+    }
+
+    searchInput.addEventListener('input', applySearch);
+    searchInput.form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      applySearch();
+      document.getElementById('recent-listings').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    applySearch();
+  }());
+</script>
 
 <!-- Footer for smaller screens. -->
 <div class="d-lg-none">
