@@ -462,17 +462,6 @@ main {
   }
 }
 
-.home-mobile-hero-banner {
-  height: 200px;
-  background: url(/static/images/folded-clothes-on-white-chair-wide.jpg) no-repeat top center;
-  background-size: cover;
-}
-
-.home-desktop-left-image {
-  background: url(/static/images/folded-clothes-on-white-chair.jpg) no-repeat center;
-  background-size: cover;
-}
-
 .hot-products-row h3 {
   margin-bottom: 32px;
   margin-top: 56px;
