@@ -35,7 +35,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Nunito+Sans:wght@700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="{{ $.baseUrl }}/static/styles/styles.css?v=campusloop-menu-content">
+    <link rel="stylesheet" type="text/css" href="{{ $.baseUrl }}/static/styles/styles.css?v=campusloop-category-filters">
     <link rel="stylesheet" type="text/css" href="{{ $.baseUrl }}/static/styles/cart.css">
     <link rel="stylesheet" type="text/css" href="{{ $.baseUrl }}/static/styles/order.css">
     <link rel="stylesheet" type="text/css" href="{{ $.baseUrl }}/static/styles/bot.css">
@@ -86,15 +86,17 @@
                         <div class="campusloop-menu-panel">
                             <div>
                                 <strong>Browse</strong>
-                                <a href="{{ $.baseUrl }}/#recent-listings">Textbooks</a>
-                                <a href="{{ $.baseUrl }}/#recent-listings">Dorm</a>
-                                <a href="{{ $.baseUrl }}/#recent-listings">Electronics</a>
-                                <a href="{{ $.baseUrl }}/#recent-listings">Clothing</a>
+                                <a href="{{ $.baseUrl }}/#recent-listings" data-category-filter="textbooks">Textbooks</a>
+                                <a href="{{ $.baseUrl }}/#recent-listings" data-category-filter="dorm">Dorm</a>
+                                <a href="{{ $.baseUrl }}/#recent-listings" data-category-filter="electronics">Electronics</a>
+                                <a href="{{ $.baseUrl }}/#recent-listings" data-category-filter="clothing">Clothing</a>
+                                <a href="{{ $.baseUrl }}/#recent-listings" data-category-filter="transportation">Transportation</a>
+                                <a href="{{ $.baseUrl }}/#recent-listings" data-category-filter="essentials">Essentials</a>
                             </div>
                             <div>
                                 <strong>Sell</strong>
-                                <a href="{{ $.baseUrl }}/">Post an item</a>
-                                <a href="{{ $.baseUrl }}/">My listings</a>
+                                <a href="{{ $.baseUrl }}/" data-account-action="create">Post an item</a>
+                                <a href="{{ $.baseUrl }}/" data-account-action="signin">My listings</a>
                             </div>
                         </div>
                     </details>

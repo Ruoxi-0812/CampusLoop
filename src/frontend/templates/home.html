@@ -32,8 +32,8 @@
           <div class="campusloop-auth-card">
             <h2>Join CampusLoop</h2>
             <div class="campusloop-auth-actions">
-              <a href="{{ $.baseUrl }}/" class="campusloop-button campusloop-button-primary">Sign in</a>
-              <a href="{{ $.baseUrl }}/" class="campusloop-button campusloop-button-secondary">Create account</a>
+              <a href="{{ $.baseUrl }}/" id="campusloop-sign-in" class="campusloop-button campusloop-button-primary">Sign in</a>
+              <a href="{{ $.baseUrl }}/" id="campusloop-create-account" class="campusloop-button campusloop-button-secondary">Create account</a>
             </div>
           </div>
         </section>
@@ -44,18 +44,20 @@
             <p>Fresh finds from student sellers around campus.</p>
           </div>
           <div class="campusloop-category-tabs" aria-label="Listing categories">
-            <button type="button" class="active">All</button>
-            <button type="button">Textbooks</button>
-            <button type="button">Dorm Essentials</button>
-            <button type="button">Electronics</button>
-            <button type="button">Clothing</button>
+            <button type="button" class="active" data-category-filter="all">All</button>
+            <button type="button" data-category-filter="textbooks">Textbooks</button>
+            <button type="button" data-category-filter="dorm">Dorm</button>
+            <button type="button" data-category-filter="electronics">Electronics</button>
+            <button type="button" data-category-filter="clothing">Clothing</button>
+            <button type="button" data-category-filter="transportation">Transportation</button>
+            <button type="button" data-category-filter="essentials">Essentials</button>
           </div>
         </section>
 
         <div class="row hot-products-row px-xl-6">
 
           {{ range $.products }}
-          <div class="col-md-4 hot-product-card">
+          <div class="col-md-4 hot-product-card" data-categories="{{ range .Item.Categories }}{{ . }} {{ end }}">
             <div class="campusloop-card">
               <a href="{{ $.baseUrl }}/product/{{.Item.Id}}" class="campusloop-card-media">
                 <img loading="lazy" src="{{ $.baseUrl }}{{.Item.Picture}}" alt="{{ .Item.Name }}">
@@ -102,20 +104,46 @@
     const searchInput = document.getElementById('campusloop-search-input');
     const cards = Array.from(document.querySelectorAll('.hot-product-card'));
     const noResults = document.querySelector('.campusloop-no-results');
+    const categoryControls = Array.from(document.querySelectorAll('[data-category-filter]'));
+    const recentListings = document.getElementById('recent-listings');
+    const signInButton = document.getElementById('campusloop-sign-in');
+    const createAccountButton = document.getElementById('campusloop-create-account');
+    let activeCategory = 'all';
+
     if (!searchInput || cards.length === 0) {
       return;
     }
 
     const params = new URLSearchParams(window.location.search);
     const initialQuery = params.get('q') || '';
+    const initialCategory = params.get('category') || 'all';
     searchInput.value = initialQuery;
 
-    function applySearch() {
+    function normalizeCategory(category) {
+      return (category || 'all').trim().toLowerCase();
+    }
+
+    function setActiveCategory(category) {
+      activeCategory = normalizeCategory(category);
+      categoryControls.forEach(function (control) {
+        const controlCategory = normalizeCategory(control.dataset.categoryFilter);
+        const isActive = controlCategory === activeCategory || (activeCategory === 'all' && controlCategory === 'all');
+        control.classList.toggle('active', isActive);
+        if (control.tagName === 'BUTTON') {
+          control.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        }
+      });
+    }
+
+    function applyFilters() {
       const query = searchInput.value.trim().toLowerCase();
       let visibleCount = 0;
       cards.forEach(function (card) {
         const text = card.textContent.toLowerCase();
-        const visible = query === '' || text.includes(query);
+        const categories = (card.dataset.categories || '').toLowerCase().split(/\s+/);
+        const matchesSearch = query === '' || text.includes(query);
+        const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
+        const visible = matchesSearch && matchesCategory;
         card.hidden = !visible;
         if (visible) {
           visibleCount += 1;
@@ -126,13 +154,49 @@
       }
     }
 
-    searchInput.addEventListener('input', applySearch);
+    function scrollToListings() {
+      if (recentListings) {
+        recentListings.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function scrollToAccount(action) {
+      const target = action === 'create' ? createAccountButton : signInButton;
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.focus({ preventScroll: true });
+      }
+    }
+
+    categoryControls.forEach(function (control) {
+      control.addEventListener('click', function (event) {
+        const category = normalizeCategory(control.dataset.categoryFilter);
+        if (category === '') {
+          return;
+        }
+        event.preventDefault();
+        searchInput.value = '';
+        setActiveCategory(category);
+        applyFilters();
+        scrollToListings();
+      });
+    });
+
+    document.querySelectorAll('[data-account-action]').forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        scrollToAccount(link.dataset.accountAction);
+      });
+    });
+
+    setActiveCategory(initialCategory);
+    searchInput.addEventListener('input', applyFilters);
     searchInput.form.addEventListener('submit', function (event) {
       event.preventDefault();
-      applySearch();
-      document.getElementById('recent-listings').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      applyFilters();
+      scrollToListings();
     });
-    applySearch();
+    applyFilters();
   }());
 </script>
 

@@ -373,6 +373,11 @@ header .campusloop-menu-panel a:hover {
   text-decoration: none;
 }
 
+header .campusloop-menu-panel a.active {
+  background: #3f1d82;
+  color: #ffffff;
+}
+
 header .top-left-logo-cymbal {
   height: 30px;
 }
@@ -775,6 +780,11 @@ similar to that of the hot-products-row.
 .campusloop-button:hover {
   transform: translateY(-1px);
   text-decoration: none;
+}
+
+.campusloop-button:focus {
+  box-shadow: 0 0 0 3px rgba(63, 29, 130, 0.18);
+  outline: 0;
 }
 
 .campusloop-button-primary {
