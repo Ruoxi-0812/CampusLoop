@@ -15,14 +15,19 @@
  */
 
 .cart-sections {
+    background-color: #F9F9F9;
+    color: #251b2f;
+    font-family: 'DM Sans', sans-serif;
     padding-bottom: 120px;
     padding-top: 56px;
-    background-color: #F9F9F9;
 }
 
 .cart-sections h3 {
-    font-size: 36px;
-    font-weight: normal;
+    color: #251b2f;
+    font-family: 'Nunito Sans', 'DM Sans', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 0;
 }
 
 .cart-sections a.cymbal-button-primary:hover {
@@ -67,13 +72,15 @@
 }
 
 .cart-summary-item-row-item-id-row {
-    font-size: 12px;
     color: #5C6063;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 .cart-summary-item-row h4 {
+    color: #251b2f;
     font-size: 18px;
-    font-weight: normal;
+    font-weight: 700;
 }
 
 /* Stick item quantity and cost to the bottom (for wider screens). */
@@ -87,11 +94,14 @@
 
 /* Item cost (price). */
 .cart-summary-item-row .row:last-child strong {
-    font-weight: 500;
+    color: #251b2f;
+    font-weight: 800;
 }
 
 .cart-summary-total-row {
+    color: #251b2f;
     font-size: 28px;
+    font-weight: 800;
 }
 
 /* Cart Checkout Form */

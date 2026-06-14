@@ -1010,9 +1010,10 @@ similar to that of the hot-products-row.
 
 .campusloop-category-tabs {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-wrap: nowrap;
+  gap: 7px;
   justify-content: flex-end;
+  white-space: nowrap;
 }
 
 .campusloop-category-tabs button {
@@ -1023,8 +1024,8 @@ similar to that of the hot-products-row.
   cursor: default;
   font-size: 13px;
   font-weight: 700;
-  height: 34px;
-  padding: 0 14px;
+  height: 32px;
+  padding: 0 12px;
 }
 
 .campusloop-category-tabs button.active {
@@ -1283,6 +1284,9 @@ similar to that of the hot-products-row.
 
   .campusloop-category-tabs {
     justify-content: flex-start;
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
   }
 
   .hot-products-row {
