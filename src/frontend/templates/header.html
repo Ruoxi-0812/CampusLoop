@@ -35,7 +35,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Nunito+Sans:wght@700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="{{ $.baseUrl }}/static/styles/styles.css?v=campusloop-remove-banner">
+    <link rel="stylesheet" type="text/css" href="{{ $.baseUrl }}/static/styles/styles.css?v=campusloop-menu-content">
     <link rel="stylesheet" type="text/css" href="{{ $.baseUrl }}/static/styles/cart.css">
     <link rel="stylesheet" type="text/css" href="{{ $.baseUrl }}/static/styles/order.css">
     <link rel="stylesheet" type="text/css" href="{{ $.baseUrl }}/static/styles/bot.css">
@@ -85,14 +85,16 @@
                         </summary>
                         <div class="campusloop-menu-panel">
                             <div>
-                                <strong>Delivery</strong>
-                                <button type="button">Pickup</button>
-                                <button type="button">Ship</button>
+                                <strong>Browse</strong>
+                                <a href="{{ $.baseUrl }}/#recent-listings">Textbooks</a>
+                                <a href="{{ $.baseUrl }}/#recent-listings">Dorm</a>
+                                <a href="{{ $.baseUrl }}/#recent-listings">Electronics</a>
+                                <a href="{{ $.baseUrl }}/#recent-listings">Clothing</a>
                             </div>
                             <div>
-                                <strong>Marketplace</strong>
-                                <span>9 active items</span>
-                                <span>Student sellers</span>
+                                <strong>Sell</strong>
+                                <a href="{{ $.baseUrl }}/">Post an item</a>
+                                <a href="{{ $.baseUrl }}/">My listings</a>
                             </div>
                         </div>
                     </details>

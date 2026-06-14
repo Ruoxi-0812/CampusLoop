@@ -353,15 +353,24 @@ header .campusloop-menu-panel strong {
 }
 
 header .campusloop-menu-panel button,
-header .campusloop-menu-panel span {
+header .campusloop-menu-panel span,
+header .campusloop-menu-panel a {
   background: #f6f7f4;
   border: 0;
   border-radius: 8px;
   color: #5f5966;
+  display: block;
   font-size: 13px;
   font-weight: 700;
   padding: 9px 10px;
   text-align: left;
+  text-decoration: none;
+}
+
+header .campusloop-menu-panel a:hover {
+  background: #f0ecf8;
+  color: #3f1d82;
+  text-decoration: none;
 }
 
 header .top-left-logo-cymbal {
