@@ -38,6 +38,48 @@
           </div>
         </section>
 
+        <section id="campusloop-seller-panel" class="campusloop-seller-panel" hidden>
+          <div class="campusloop-seller-panel-header">
+            <div>
+              <p class="campusloop-eyebrow">Student seller</p>
+              <h3 id="campusloop-seller-title">Post an item</h3>
+            </div>
+            <button type="button" id="campusloop-seller-close" aria-label="Close seller tools">Close</button>
+          </div>
+
+          <form id="campusloop-post-form" class="campusloop-post-form">
+            <label>
+              Item name
+              <input name="name" type="text" placeholder="Desk lamp, textbook, bike..." required>
+            </label>
+            <label>
+              Category
+              <select name="category" required>
+                <option value="textbooks">Textbooks</option>
+                <option value="dorm">Dorm</option>
+                <option value="electronics">Electronics</option>
+                <option value="clothing">Clothing</option>
+                <option value="transportation">Transportation</option>
+                <option value="essentials">Essentials</option>
+              </select>
+            </label>
+            <label>
+              Price
+              <input name="price" type="number" min="0" step="1" placeholder="25" required>
+            </label>
+            <label>
+              Pickup note
+              <input name="pickup" type="text" placeholder="Library lobby, dorm front desk..." required>
+            </label>
+            <button type="submit" class="campusloop-button campusloop-button-primary">Save listing</button>
+          </form>
+
+          <div id="campusloop-my-listings" class="campusloop-my-listings" hidden>
+            <div id="campusloop-my-listings-list"></div>
+            <p id="campusloop-empty-listings" class="campusloop-empty-listings">No listings yet.</p>
+          </div>
+        </section>
+
         <section id="recent-listings" class="campusloop-listings-header px-xl-6">
           <div>
             <h3>Recently Listed</h3>
@@ -108,6 +150,14 @@
     const recentListings = document.getElementById('recent-listings');
     const signInButton = document.getElementById('campusloop-sign-in');
     const createAccountButton = document.getElementById('campusloop-create-account');
+    const sellerPanel = document.getElementById('campusloop-seller-panel');
+    const sellerTitle = document.getElementById('campusloop-seller-title');
+    const sellerClose = document.getElementById('campusloop-seller-close');
+    const postForm = document.getElementById('campusloop-post-form');
+    const myListings = document.getElementById('campusloop-my-listings');
+    const myListingsList = document.getElementById('campusloop-my-listings-list');
+    const emptyListings = document.getElementById('campusloop-empty-listings');
+    const listingsStorageKey = 'campusloop-my-listings';
     let activeCategory = 'all';
 
     if (!searchInput || cards.length === 0) {
@@ -160,11 +210,58 @@
       }
     }
 
-    function scrollToAccount(action) {
-      const target = action === 'create' ? createAccountButton : signInButton;
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        target.focus({ preventScroll: true });
+    function getStoredListings() {
+      try {
+        return JSON.parse(window.localStorage.getItem(listingsStorageKey)) || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveStoredListings(listings) {
+      window.localStorage.setItem(listingsStorageKey, JSON.stringify(listings));
+    }
+
+    function renderMyListings() {
+      const listings = getStoredListings();
+      if (!myListingsList || !emptyListings) {
+        return;
+      }
+      myListingsList.innerHTML = '';
+      emptyListings.hidden = listings.length !== 0;
+      listings.forEach(function (listing) {
+        const row = document.createElement('div');
+        row.className = 'campusloop-my-listing';
+        row.innerHTML = [
+          '<div>',
+          '<strong></strong>',
+          '<span></span>',
+          '</div>',
+          '<b></b>'
+        ].join('');
+        row.querySelector('strong').textContent = listing.name;
+        row.querySelector('span').textContent = listing.categoryLabel + ' · ' + listing.pickup;
+        row.querySelector('b').textContent = '$' + listing.price;
+        myListingsList.appendChild(row);
+      });
+    }
+
+    function showSellerPanel(mode) {
+      if (!sellerPanel || !postForm || !myListings || !sellerTitle) {
+        return;
+      }
+      const isListingsMode = mode === 'listings';
+      sellerTitle.textContent = isListingsMode ? 'My listings' : 'Post an item';
+      postForm.hidden = isListingsMode;
+      myListings.hidden = !isListingsMode;
+      sellerPanel.hidden = false;
+      renderMyListings();
+      sellerPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (!isListingsMode) {
+        const firstInput = postForm.querySelector('input');
+        if (firstInput) {
+          firstInput.focus({ preventScroll: true });
+        }
       }
     }
 
@@ -185,9 +282,37 @@
     document.querySelectorAll('[data-account-action]').forEach(function (link) {
       link.addEventListener('click', function (event) {
         event.preventDefault();
-        scrollToAccount(link.dataset.accountAction);
+        showSellerPanel(link.dataset.accountAction === 'signin' ? 'listings' : 'post');
       });
     });
+
+    if (sellerClose && sellerPanel) {
+      sellerClose.addEventListener('click', function () {
+        sellerPanel.hidden = true;
+      });
+    }
+
+    if (postForm) {
+      postForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(postForm);
+        const category = normalizeCategory(formData.get('category'));
+        const categoryOption = postForm.querySelector('option[value="' + category + '"]');
+        const listing = {
+          id: String(Date.now()),
+          name: String(formData.get('name') || '').trim(),
+          category: category,
+          categoryLabel: categoryOption ? categoryOption.textContent : category,
+          price: String(formData.get('price') || '0').trim(),
+          pickup: String(formData.get('pickup') || '').trim()
+        };
+        const listings = getStoredListings();
+        listings.unshift(listing);
+        saveStoredListings(listings);
+        postForm.reset();
+        showSellerPanel('listings');
+      });
+    }
 
     setActiveCategory(initialCategory);
     searchInput.addEventListener('input', applyFilters);

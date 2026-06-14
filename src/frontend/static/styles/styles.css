@@ -882,6 +882,105 @@ similar to that of the hot-products-row.
   padding: 0 20px;
 }
 
+.campusloop-seller-panel {
+  background: #ffffff;
+  border: 1px solid #e2ded7;
+  border-radius: 10px;
+  box-shadow: 0 16px 38px rgba(37, 27, 47, 0.07);
+  margin: 24px 10% 22px;
+  padding: 28px;
+}
+
+.campusloop-seller-panel-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.campusloop-seller-panel h3 {
+  color: #251b2f;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.campusloop-seller-panel-header button {
+  background: #f6f7f4;
+  border: 1px solid #ded7e8;
+  border-radius: 8px;
+  color: #5f5966;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  height: 36px;
+  padding: 0 14px;
+}
+
+.campusloop-post-form {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.campusloop-post-form label {
+  color: #5f5966;
+  display: grid;
+  font-size: 13px;
+  font-weight: 800;
+  gap: 7px;
+  margin: 0;
+}
+
+.campusloop-post-form input,
+.campusloop-post-form select {
+  background: #f6f7f4;
+  border: 1px solid #ded7e8;
+  border-radius: 8px;
+  color: #251b2f;
+  font-size: 14px;
+  font-weight: 700;
+  height: 42px;
+  padding: 0 12px;
+}
+
+.campusloop-post-form button {
+  align-self: end;
+  border: 0;
+}
+
+.campusloop-my-listings {
+  display: grid;
+  gap: 12px;
+}
+
+.campusloop-my-listing {
+  align-items: center;
+  background: #f6f7f4;
+  border-radius: 8px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 14px;
+}
+
+.campusloop-my-listing strong,
+.campusloop-my-listing b {
+  color: #251b2f;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.campusloop-my-listing span,
+.campusloop-empty-listings {
+  color: #6f6976;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 4px 0 0;
+}
+
 .campusloop-listings-header {
   align-items: flex-end;
   display: flex;
@@ -1156,6 +1255,21 @@ similar to that of the hot-products-row.
     min-width: 0;
     padding-left: 0;
     width: 100%;
+  }
+
+  .campusloop-seller-panel {
+    margin: 18px 16px;
+    padding: 20px;
+  }
+
+  .campusloop-seller-panel-header,
+  .campusloop-my-listing {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .campusloop-post-form {
+    grid-template-columns: 1fr;
   }
 
   .campusloop-listings-header {
