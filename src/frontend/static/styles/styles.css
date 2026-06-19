@@ -415,40 +415,102 @@ footer.py-5 {
 }
 
 footer .footer-top {
-  padding: 60px 0px;
-  background-color: #570D2E;
-  color: white;
+  background: #251b2f;
+  color: #ffffff;
+  padding: 42px 0 28px;
 }
 
 footer .footer-top a {
-  color: white;
-  text-decoration: underline;
+  color: #ffffff;
+  text-decoration: none;
 }
 
-/* The <p> containing the session-id. */
-footer .footer-top p:nth-child(3) {
-  margin-top: 56px;
+footer .campusloop-footer-content {
+  max-width: 1180px;
+  padding-left: 28px;
+  padding-right: 28px;
 }
 
-footer .footer-top .footer-social,
-footer .footer-top .footer-app,
-footer .footer-links,
-footer .footer-top .social,
-footer .footer-top .app {
-  display: block;
+footer .campusloop-footer-main,
+footer .campusloop-footer-bottom {
   align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
 
-footer .footer-top .footer-social {
-  padding: 31px;
+footer .campusloop-footer-main {
+  gap: 32px;
 }
 
-footer .footer-top .footer-social h4 {
-  margin-bottom: 0;
+footer .campusloop-footer-brand {
+  display: grid;
+  gap: 6px;
 }
 
-footer .footer-top .footer-social div {
-  width: 50%;
+footer .campusloop-footer-brand strong {
+  font-family: 'Nunito Sans', 'DM Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+footer .campusloop-footer-brand span,
+footer .campusloop-footer-bottom {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+footer .campusloop-footer-nav {
+  display: flex;
+  gap: 24px;
+}
+
+footer .campusloop-footer-nav a {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+footer .campusloop-footer-nav a:hover {
+  color: #c9e7dd;
+}
+
+footer .campusloop-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  gap: 24px;
+  margin-top: 28px;
+  padding-top: 18px;
+}
+
+footer .campusloop-system-details {
+  position: relative;
+}
+
+footer .campusloop-system-details summary {
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  list-style: none;
+}
+
+footer .campusloop-system-details summary::-webkit-details-marker {
+  display: none;
+}
+
+footer .campusloop-system-details div {
+  background: #ffffff;
+  border-radius: 8px;
+  bottom: 28px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.2);
+  color: #5f5966;
+  font-size: 11px;
+  line-height: 1.6;
+  min-width: 300px;
+  padding: 12px;
+  position: absolute;
+  right: 0;
+  word-break: break-all;
+  z-index: 20;
 }
 
 /* Home */
@@ -534,11 +596,11 @@ This chunk ensures the left/right padding of the footer is
 similar to that of the hot-products-row.
 */
 .home-desktop-footer-row {
-  padding-left: 9%;
-  padding-right: 9%;
-  background-color: #570D2E;
+  background: transparent;
+  margin: 56px 0 0;
+  padding-left: 0;
+  padding-right: 0;
   width: 100%;
-  margin: 0;
 }
 
 /* Ad */
@@ -1271,6 +1333,22 @@ similar to that of the hot-products-row.
 
   .campusloop-post-form {
     grid-template-columns: 1fr;
+  }
+
+  footer .campusloop-footer-main,
+  footer .campusloop-footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  footer .campusloop-footer-nav {
+    gap: 20px;
+  }
+
+  footer .campusloop-system-details div {
+    left: 0;
+    min-width: min(300px, calc(100vw - 64px));
+    right: auto;
   }
 
   .campusloop-listings-header {
