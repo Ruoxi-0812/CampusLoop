@@ -1,5 +1,7 @@
 # CampusLoop
 
+![CI](https://github.com/Ruoxi-0812/CampusLoop/actions/workflows/ci-main.yaml/badge.svg)
+
 CampusLoop is a student-to-student second-hand marketplace for Northeastern University students. Students can browse used textbooks, dorm essentials, furniture, electronics, clothing, and daily supplies, then coordinate campus pickup with a seller.
 
 Application: [https://neuloop.vercel.app](https://neuloop.vercel.app)
