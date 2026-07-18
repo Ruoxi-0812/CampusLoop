@@ -1,81 +1,144 @@
 # CampusLoop
 
-CampusLoop is a student-to-student second-hand marketplace for Northeastern University students. It helps students browse used textbooks, dorm essentials, furniture, electronics, clothing, and daily supplies, then coordinate pickup around campus.
+CampusLoop is a student-to-student second-hand marketplace for Northeastern University students. Students can browse used textbooks, dorm essentials, furniture, electronics, clothing, and daily supplies, then coordinate campus pickup with a seller.
 
-Live demo: [https://neuloop.vercel.app](https://neuloop.vercel.app)
-
-## Highlights
-
-- Campus-focused resale marketplace for student listings
-- Polished homepage with searchable listings, category filters, and product cards
-- Product detail pages with price, condition, status, pickup area, handoff time, and seller prompts
-- Simple account flow with login, create-account, avatar state, messages, and my-listings pages
-- Post-item flow for sellers with photo, title, price, category, campus, dorm area, pickup notes, contact method, and availability
-- Static Vercel demo for resume viewing, plus Kubernetes manifests for the full microservices version
-
-## Tech Stack
-
-- **Frontend:** Go templates, HTML, CSS, JavaScript
-- **Services:** Go, Node.js, Python, Java, C#
-- **Communication:** gRPC and Protocol Buffers
-- **Data/cache:** Redis cart store and JSON-backed product catalog
-- **Platform:** Docker, Kubernetes, Kind, Skaffold, Vercel
+Application: [https://neuloop.vercel.app](https://neuloop.vercel.app)
 
 ## Architecture
 
-CampusLoop uses a microservices commerce architecture. The frontend coordinates user-facing flows while separate services handle product catalog, cart, checkout, recommendation, ads, currency, payment, shipping, and email behavior.
+CampusLoop is organized around a Go frontend and a set of commerce microservices for product catalog, cart, checkout, recommendations, ads, currency conversion, payment, shipping, and email confirmation. The current Vercel deployment provides a static resume-ready demo of the marketplace UI, while the full project keeps the Kubernetes microservices structure for local or cloud deployment.
 
-| Service | Language | Role |
+```mermaid
+flowchart TB
+  Student((Student))
+  Seller((Seller))
+  Demo["static demo\nVercel"]
+  Frontend["frontend\nGo templates"]
+  Catalog["product catalog\nGo"]
+  Cart["cart\nC# + Redis"]
+  Checkout["checkout\nGo"]
+  Payment["payment\nNode.js"]
+  Shipping["shipping\nGo"]
+  Email["email\nPython"]
+  Recommendation["recommendations\nPython"]
+  Ads["ads\nJava"]
+  Currency["currency\nNode.js"]
+  Products[("campus item catalog")]
+  Redis[("Redis cart store")]
+  K8s["Kubernetes manifests"]
+
+  Student -->|browse, buy, message| Demo
+  Seller -->|post item| Demo
+  Student -->|HTTP| Frontend
+  Seller -->|HTTP| Frontend
+
+  Frontend --> Catalog
+  Frontend --> Cart
+  Frontend --> Checkout
+  Frontend --> Recommendation
+  Frontend --> Ads
+  Frontend --> Currency
+
+  Catalog --> Products
+  Cart --> Redis
+  Checkout --> Payment
+  Checkout --> Shipping
+  Checkout --> Email
+  K8s --> Frontend
+  K8s --> Catalog
+  K8s --> Cart
+  K8s --> Checkout
+
+  classDef frontend fill:#eadfe4,stroke:#b9b9b9,color:#111,font-weight:bold;
+  classDef backend fill:#f7f0d8,stroke:#b9b9b9,color:#111,font-weight:bold;
+  classDef service fill:#ffffff,stroke:#b9b9b9,color:#444;
+  classDef datastore fill:#ffffff,stroke:#999,color:#444;
+  class Demo,Frontend frontend;
+  class Catalog,Cart,Checkout,Payment,Shipping,Email,Recommendation,Ads,Currency backend;
+  class K8s service;
+  class Products,Redis datastore;
+```
+
+| Service | Technology | Description |
 | --- | --- | --- |
-| [frontend](src/frontend) | Go | Serves the CampusLoop web UI and marketplace flows |
-| [productcatalogservice](src/productcatalogservice) | Go | Provides campus resale product data |
-| [cartservice](src/cartservice) | C# | Stores cart data through Redis |
-| [checkoutservice](src/checkoutservice) | Go | Coordinates checkout, payment, shipping, and email confirmation |
-| [currencyservice](src/currencyservice) | Node.js | Converts listing prices between currencies |
-| [paymentservice](src/paymentservice) | Node.js | Provides mock payment behavior for checkout |
-| [shippingservice](src/shippingservice) | Go | Provides mock shipping quotes and tracking |
-| [emailservice](src/emailservice) | Python | Sends mock order confirmation emails |
-| [recommendationservice](src/recommendationservice) | Python | Recommends related products |
-| [adservice](src/adservice) | Java | Provides promotional messages |
-| [loadgenerator](src/loadgenerator) | Python/Locust | Generates demo traffic for testing |
+| frontend | Go templates, HTML, CSS, JavaScript | CampusLoop web UI for browsing, product details, account state, messages, listings, and post-item pages. |
+| productcatalogservice | Go | Provides campus resale listings from the product catalog. |
+| cartservice | C# + Redis | Stores and retrieves cart data. |
+| checkoutservice | Go | Coordinates checkout, payment, shipping, and email confirmation. |
+| currencyservice | Node.js | Converts listing prices between supported currencies. |
+| paymentservice | Node.js | Provides mock payment behavior for checkout. |
+| shippingservice | Go | Provides mock shipping quotes and tracking behavior. |
+| emailservice | Python | Sends mock order confirmation emails. |
+| recommendationservice | Python | Recommends related marketplace items. |
+| adservice | Java | Provides promotional messages for the storefront. |
+| deployment | Vercel + Kubernetes | Vercel hosts the static demo; Kubernetes manifests run the full microservices version. |
 
-Service definitions live in [protos/demo.proto](protos/demo.proto). Kubernetes manifests live in [release/kubernetes-manifests.yaml](release/kubernetes-manifests.yaml).
+## Screenshots
 
-## Project Structure
+| Marketplace Home | Product Detail |
+| --- | --- |
+| [Open homepage](https://neuloop.vercel.app) | [Open product page](https://neuloop.vercel.app/product/66VCHSJNUP) |
 
-- [src/frontend/templates](src/frontend/templates): shared layout, homepage, product, account, messages, listings, and post-item pages
-- [src/frontend/static/styles/styles.css](src/frontend/static/styles/styles.css): CampusLoop visual design
-- [src/frontend/static/icons](src/frontend/static/icons): CampusLoop logo and UI icons
-- [src/frontend/static/img/products/campusloop](src/frontend/static/img/products/campusloop): product images
-- [src/productcatalogservice/products.json](src/productcatalogservice/products.json): marketplace item catalog
-- [vercel-demo](vercel-demo): static resume-ready website deployed on Vercel
+## Quickstart
 
-## Local Development
-
-Run the full microservices version with a local Kubernetes cluster:
-
-```sh
+```bash
+git clone https://github.com/Ruoxi-0812/CampusLoop.git
+cd CampusLoop
 kind create cluster --name campusloop
 kubectl apply -f release/kubernetes-manifests.yaml
-kubectl get pods
 kubectl port-forward deployment/frontend 8081:8080
 ```
 
-Then open:
+Open the app:
 
 ```text
 http://127.0.0.1:8081
 ```
 
-## Vercel Demo
+## Local Development
 
-The resume demo is exported as a static site in [vercel-demo](vercel-demo). In Vercel, set the project root directory to:
+Frontend:
 
-```text
-vercel-demo
+```bash
+cd src/frontend
+go run .
 ```
 
-Then deploy the project to production.
+Static demo:
+
+```bash
+cd vercel-demo
+vercel dev
+```
+
+Kubernetes:
+
+```bash
+kubectl apply -f release/kubernetes-manifests.yaml
+kubectl get pods
+kubectl port-forward deployment/frontend 8081:8080
+```
+
+## Deployment
+
+- Static demo: Vercel
+- Production URL: [https://neuloop.vercel.app](https://neuloop.vercel.app)
+- Vercel root directory: `vercel-demo`
+- Full service runtime: Kubernetes
+- Local cluster: Kind
+- Service manifests: `release/kubernetes-manifests.yaml`
+- Container workflow: Docker and Skaffold
+
+The Vercel version is intentionally static so the project can be viewed reliably from a resume link without keeping a paid Kubernetes cluster running.
+
+## Documentation
+
+- [Static Vercel demo](vercel-demo)
+- [Frontend templates](src/frontend/templates)
+- [Frontend styles](src/frontend/static/styles/styles.css)
+- [Product catalog](src/productcatalogservice/products.json)
+- [Protocol Buffers API](protos/demo.proto)
+- [Kubernetes manifests](release/kubernetes-manifests.yaml)
 
 ## Attribution
 
