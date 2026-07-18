@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  campusloop-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check project files
+        run: |
+          test -f README.md
+          test -f vercel-demo/index.html
+          test -f vercel-demo/vercel.json
+          test -f vercel-demo/static/styles/styles.css
+          test -f vercel-demo/static/icons/CampusLoop_UserLogo.png
+          test -f src/frontend/templates/home.html
+          test -f src/frontend/templates/product.html
+          test -f src/frontend/templates/signin.html
+          test -f src/frontend/templates/post-item.html
+          test -f src/productcatalogservice/products.json
+          test -f release/kubernetes-manifests.yaml
+
+      - name: Check README links
+        run: |
+          grep -q "https://neuloop.vercel.app" README.md
+          grep -q "vercel-demo" README.md
+          grep -q "CampusLoop" README.md
