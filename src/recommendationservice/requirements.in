@@ -7,3 +7,4 @@ rsa==4.9.1
 opentelemetry-distro==0.41b0
 opentelemetry-instrumentation-grpc==0.59b0
 opentelemetry-exporter-otlp-proto-grpc==1.38.0
+setuptools==69.5.1

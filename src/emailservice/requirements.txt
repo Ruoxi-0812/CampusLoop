@@ -128,6 +128,8 @@ requests==2.31.0
     #   google-cloud-profiler
 rsa==4.9
     # via google-auth
+setuptools==69.5.1
+    # via -r requirements.in
 typing-extensions==4.8.0
     # via opentelemetry-sdk
 uritemplate==4.1.1
@@ -141,6 +143,3 @@ wrapt==1.16.0
     #   opentelemetry-instrumentation-grpc
 zipp==3.17.0
     # via importlib-metadata
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools

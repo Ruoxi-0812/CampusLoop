@@ -1,0 +1,75 @@
+{{ define "signin" }}
+{{ template "header" . }}
+<main role="main" class="campusloop-signin-page">
+  <section class="campusloop-signin-card">
+    <p class="campusloop-eyebrow">CampusLoop account</p>
+    <div class="campusloop-auth-tabs" aria-label="Account mode">
+      <button type="button" data-auth-mode="login">Log in</button>
+      <button type="button" data-auth-mode="signup">Create account</button>
+    </div>
+    <form id="campusloop-signin-page-form" class="campusloop-signin-form">
+      <label>
+        Email
+        <input type="email" name="email" placeholder="student@example.com" required>
+      </label>
+      <label>
+        Display name
+        <input type="text" name="name" placeholder="Alex" required>
+      </label>
+      <label class="campusloop-role-toggle">
+        <input type="checkbox" name="seller">
+        <span>I also want to sell items</span>
+      </label>
+      <button type="submit" class="campusloop-button campusloop-button-primary" data-auth-submit>Continue</button>
+    </form>
+  </section>
+</main>
+
+<script>
+  (function () {
+    const form = document.getElementById('campusloop-signin-page-form');
+    if (!form) {
+      return;
+    }
+    const submit = document.querySelector('[data-auth-submit]');
+    const modeButtons = Array.from(document.querySelectorAll('[data-auth-mode]'));
+    const params = new URLSearchParams(window.location.search);
+    let mode = window.location.pathname.endsWith('/signup') || params.get('mode') === 'signup' ? 'signup' : 'login';
+
+    function setMode(nextMode) {
+      mode = nextMode === 'signup' ? 'signup' : 'login';
+      modeButtons.forEach(function (button) {
+        const active = button.dataset.authMode === mode;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      if (submit) {
+        submit.textContent = mode === 'signup' ? 'Create account' : 'Log in';
+      }
+    }
+
+    modeButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        setMode(button.dataset.authMode);
+      });
+    });
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const email = String(formData.get('email') || '').trim();
+      const fallbackName = email ? email.split('@')[0] : 'Student';
+      const user = {
+        email: email,
+        name: String(formData.get('name') || fallbackName).trim(),
+        role: formData.get('seller') ? 'seller' : 'buyer'
+      };
+      window.localStorage.setItem('campusloop-user', JSON.stringify(user));
+      window.location.href = params.get('next') || '{{ $.baseUrl }}/';
+    });
+    setMode(mode);
+  }());
+</script>
+
+{{ template "footer" . }}
+{{ end }}

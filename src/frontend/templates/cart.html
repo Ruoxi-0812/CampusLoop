@@ -86,7 +86,7 @@
                     {{ end }}
 
                     <div class="row cart-summary-shipping-row">
-                        <div class="col pl-md-0">Shipping</div>
+                        <div class="col pl-md-0">Campus pickup coordination</div>
                         <div class="col pr-md-0 text-right">{{ renderMoney .shipping_cost }}</div>
                     </div>
 
@@ -103,31 +103,31 @@
 
                         <div class="row">
                             <div class="col">
-                                <h3>Shipping Address</h3>
+                                <h3>Pickup Contact Details</h3>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col cymbal-form-field">
-                                <label for="email">E-mail Address</label>
+                                <label for="email">Contact E-mail</label>
                                 <input type="email" id="email"
-                                    name="email" value="someone@example.com" required>
+                                    name="email" value="student@northeastern.edu" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col cymbal-form-field">
-                                <label for="street_address">Street Address</label>
+                                <label for="street_address">Campus Pickup Note</label>
                                 <input type="text" name="street_address"
-                                    id="street_address" value="1600 Amphitheatre Parkway" required>
+                                    id="street_address" value="Snell Library lobby or agreed campus pickup spot" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col cymbal-form-field">
-                                <label for="zip_code">Zip Code</label>
+                                <label for="zip_code">Campus Zip Code</label>
                                 <input type="text"
-                                    name="zip_code" id="zip_code" value="94043" required pattern="\d{4,5}">
+                                    name="zip_code" id="zip_code" value="02115" required pattern="\d{4,5}">
                             </div>
                         </div>
 
@@ -135,7 +135,7 @@
                             <div class="col cymbal-form-field">
                                 <label for="city">City</label>
                                 <input type="text" name="city" id="city"
-                                    value="Mountain View" required>
+                                    value="Boston" required>
                                 </div>
                             </div>
 
@@ -143,7 +143,7 @@
                             <div class="col-md-5 cymbal-form-field">
                                 <label for="state">State</label>
                                 <input type="text" name="state" id="state"
-                                    value="CA" required>
+                                    value="MA" required>
                             </div>
                             <div class="col-md-7 cymbal-form-field">
                                 <label for="country">Country</label>
@@ -210,7 +210,7 @@
                         <div class="form-row justify-content-center">
                             <div class="col text-center">
                                 <button class="cymbal-button-primary" type="submit">
-                                    Place Order
+                                    Pay and Reserve Pickup
                                 </button>
                             </div>
                         </div>

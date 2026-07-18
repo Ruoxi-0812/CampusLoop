@@ -119,6 +119,70 @@ func (fe *frontendServer) homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (fe *frontendServer) signInHandler(w http.ResponseWriter, r *http.Request) {
+	cart, err := fe.getCart(r.Context(), sessionID(r))
+	if err != nil {
+		log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
+		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve cart"), http.StatusInternalServerError)
+		return
+	}
+
+	if err := templates.ExecuteTemplate(w, "signin", injectCommonTemplateData(r, map[string]interface{}{
+		"show_currency": false,
+		"cart_size":     cartSize(cart),
+	})); err != nil {
+		log.Println(err)
+	}
+}
+
+func (fe *frontendServer) messagesHandler(w http.ResponseWriter, r *http.Request) {
+	cart, err := fe.getCart(r.Context(), sessionID(r))
+	if err != nil {
+		log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
+		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve cart"), http.StatusInternalServerError)
+		return
+	}
+
+	if err := templates.ExecuteTemplate(w, "messages", injectCommonTemplateData(r, map[string]interface{}{
+		"show_currency": false,
+		"cart_size":     cartSize(cart),
+	})); err != nil {
+		log.Println(err)
+	}
+}
+
+func (fe *frontendServer) myListingsHandler(w http.ResponseWriter, r *http.Request) {
+	cart, err := fe.getCart(r.Context(), sessionID(r))
+	if err != nil {
+		log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
+		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve cart"), http.StatusInternalServerError)
+		return
+	}
+
+	if err := templates.ExecuteTemplate(w, "my-listings", injectCommonTemplateData(r, map[string]interface{}{
+		"show_currency": false,
+		"cart_size":     cartSize(cart),
+	})); err != nil {
+		log.Println(err)
+	}
+}
+
+func (fe *frontendServer) postItemHandler(w http.ResponseWriter, r *http.Request) {
+	cart, err := fe.getCart(r.Context(), sessionID(r))
+	if err != nil {
+		log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
+		renderHTTPError(log, r, w, errors.Wrap(err, "could not retrieve cart"), http.StatusInternalServerError)
+		return
+	}
+
+	if err := templates.ExecuteTemplate(w, "post-item", injectCommonTemplateData(r, map[string]interface{}{
+		"show_currency": false,
+		"cart_size":     cartSize(cart),
+	})); err != nil {
+		log.Println(err)
+	}
+}
+
 func (plat *platformDetails) setPlatformDetails(env string) {
 	if env == "aws" {
 		plat.provider = "AWS"
@@ -232,7 +296,7 @@ func (fe *frontendServer) addToCartHandler(w http.ResponseWriter, r *http.Reques
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to add to cart"), http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("location", baseUrl + "/cart")
+	w.Header().Set("location", baseUrl+"/cart")
 	w.WriteHeader(http.StatusFound)
 }
 
@@ -244,7 +308,7 @@ func (fe *frontendServer) emptyCartHandler(w http.ResponseWriter, r *http.Reques
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to empty cart"), http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("location", baseUrl + "/")
+	w.Header().Set("location", baseUrl+"/")
 	w.WriteHeader(http.StatusFound)
 }
 
@@ -423,7 +487,7 @@ func (fe *frontendServer) logoutHandler(w http.ResponseWriter, r *http.Request) 
 		c.MaxAge = -1
 		http.SetCookie(w, c)
 	}
-	w.Header().Set("Location", baseUrl + "/")
+	w.Header().Set("Location", baseUrl+"/")
 	w.WriteHeader(http.StatusFound)
 }
 

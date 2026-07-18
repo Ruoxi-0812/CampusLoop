@@ -1,0 +1,336 @@
+
+    
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        
+        CampusLoop
+        
+    </title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Nunito+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/static/styles/styles.css?v=campusloop-topbar-actions-left-135">
+    <link rel="stylesheet" type="text/css" href="/static/styles/cart.css?v=campusloop-fonts">
+    <link rel="stylesheet" type="text/css" href="/static/styles/order.css">
+    <link rel="stylesheet" type="text/css" href="/static/styles/bot.css">
+    
+    <link rel='shortcut icon' type='image/png' href='/static/icons/CampusLoop_UserLogo.png?v=campusloop-favicon-balanced-white' />
+    
+</head>
+
+<body>
+    <header>
+        
+        <div class="navbar sub-navbar">
+            <div class="container d-flex justify-content-between">
+                <a href="/" class="navbar-brand d-flex align-items-center">
+                    
+                    <span class="campusloop-logo">
+                        <img src="/static/icons/CampusLoop_UserLogo.png" alt="" class="campusloop-logo-mark" width="42" height="40" />
+                        <span class="campusloop-logo-text">CampusLoop</span>
+                    </span>
+                    
+                </a>
+                <div class="campusloop-topbar-primary">
+                    
+                    <form class="campusloop-search" action="/" method="GET" role="search">
+                        <label for="campusloop-search-input" class="sr-only">Search CampusLoop</label>
+                        <img class="campusloop-search-icon" src="/static/icons/Hipster_SearchIcon.svg" alt="" aria-hidden="true">
+                        <input id="campusloop-search-input" name="q" type="search" placeholder="Search items..." autocomplete="off">
+                    </form>
+                    
+
+                    
+                    <details class="campusloop-menu">
+                        <summary aria-label="Open CampusLoop menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </summary>
+                        <div class="campusloop-menu-panel">
+                            <div>
+                                <strong>Browse</strong>
+                                <a href="/#recent-listings" data-category-filter="textbooks">Textbooks</a>
+                                <a href="/#recent-listings" data-category-filter="furniture">Furniture</a>
+                                <a href="/#recent-listings" data-category-filter="dorm">Dorm</a>
+                                <a href="/#recent-listings" data-category-filter="electronics">Electronics</a>
+                                <a href="/#recent-listings" data-category-filter="clothing">Clothing</a>
+                                <a href="/#recent-listings" data-category-filter="transportation">Transportation</a>
+                                <a href="/#recent-listings" data-category-filter="essentials">Essentials</a>
+                                <a href="/#recent-listings" data-category-filter="other">Other</a>
+                            </div>
+                            <div>
+                                <strong>Sell</strong>
+                                <a href="/post-item" data-account-action="create">Post item</a>
+                                <a href="/my-listings">My listings</a>
+                            </div>
+                            <div>
+                                <strong>Account</strong>
+                                <a href="/login">Log in</a>
+                                <a href="/signup">Create account</a>
+                            </div>
+                        </div>
+                    </details>
+                    
+
+                    
+                    <div class="h-controls">
+                        <div class="h-control">
+                            <span class="icon currency-icon"> $</span>
+                            <form method="POST" class="controls-form" action="/setCurrency" id="currency_form" >
+                                <select name="currency_code" onchange="document.getElementById('currency_form').submit();">
+                                        
+                                    <option value="EUR" >EUR</option>
+                                    
+                                    <option value="USD" selected="selected">USD</option>
+                                    
+                                    <option value="JPY" >JPY</option>
+                                    
+                                    <option value="GBP" >GBP</option>
+                                    
+                                    <option value="TRY" >TRY</option>
+                                    
+                                    <option value="CAD" >CAD</option>
+                                    
+                                </select>
+                            </form>
+                            <img src="/static/icons/Hipster_DownArrow.svg" alt="" class="icon arrow" />
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="campusloop-topbar-account">
+
+                    
+                    <a href="/login" class="campusloop-topbar-signin" data-auth-signin>Log in</a>
+                    <details class="campusloop-user-menu" data-auth-user-menu hidden>
+                        <summary aria-label="Open account menu">
+                            <span class="campusloop-avatar" data-auth-avatar>ST</span>
+                        </summary>
+                        <div class="campusloop-user-menu-panel">
+                            <strong data-auth-name>Student</strong>
+                            <span data-auth-role>Buyer</span>
+                            <a href="/messages">Messages</a>
+                            <a href="/my-listings">My listings</a>
+                            <button type="button" data-auth-logout>Logout</button>
+                        </div>
+                    </details>
+                    
+
+                    
+
+                    <a href="/cart" class="cart-link">
+                        <img src="/static/icons/Hipster_CartIcon.svg" alt="Cart icon" class="logo" title="Cart" />
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </header>
+    <script>
+      (function () {
+        function getUser() {
+          try {
+            return JSON.parse(window.localStorage.getItem('campusloop-user')) || null;
+          } catch (error) {
+            return null;
+          }
+        }
+
+        function initials(name, email) {
+          const value = String(name || email || 'Student').trim();
+          const parts = value.split(/\s+/).filter(Boolean);
+          if (parts.length > 1) {
+            return (parts[0][0] + parts[1][0]).toUpperCase();
+          }
+          return value.slice(0, 2).toUpperCase();
+        }
+
+        function updateAuthUI() {
+          const user = getUser();
+          const signIn = document.querySelector('[data-auth-signin]');
+          const userMenu = document.querySelector('[data-auth-user-menu]');
+          const avatar = document.querySelector('[data-auth-avatar]');
+          const name = document.querySelector('[data-auth-name]');
+          const role = document.querySelector('[data-auth-role]');
+
+          if (signIn) {
+            signIn.hidden = Boolean(user);
+          }
+          if (userMenu) {
+            userMenu.hidden = !user;
+          }
+          if (user && avatar) {
+            avatar.textContent = initials(user.name, user.email);
+          }
+          if (user && name) {
+            name.textContent = user.name || user.email || 'Student';
+          }
+          if (user && role) {
+            role.textContent = user.role === 'seller' ? 'Seller mode' : 'Buyer mode';
+          }
+          document.documentElement.classList.toggle('campusloop-signed-in', Boolean(user));
+        }
+
+        document.addEventListener('click', function (event) {
+          const logout = event.target.closest('[data-auth-logout]');
+          if (logout) {
+            event.preventDefault();
+            window.localStorage.removeItem('campusloop-user');
+            updateAuthUI();
+            if (window.location.pathname !== '/') {
+              window.location.href = '/';
+            }
+          }
+        });
+
+        updateAuthUI();
+        window.CampusLoopAuth = {
+          getUser: getUser,
+          update: updateAuthUI
+        };
+      }());
+    </script>
+    
+
+    <div  class="gcp-platform" >
+        <span class="platform-flag">
+            Google Cloud
+        </span>
+    </div>
+
+    <main role="main" class="cart-sections">
+
+        
+        <section class="empty-cart-section">
+            <h3>Your shopping cart is empty!</h3>
+            <p>Items you add to your shopping cart will appear here.</p>
+            <a class="cymbal-button-primary" href="/" role="button">Continue Shopping</a>
+        </section>
+         
+
+    </main>
+
+    
+        
+<section class="recommendations">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-10 offset-xl-1">
+          <h2>You May Also Like</h2>
+          <div class="row">
+            
+            <div class="col-md-3">
+              <div>
+                <a href="/product/LS4PSXUNUM">
+                  <img alt="" src="/static/img/products/campusloop/mechanical-keyboard.png">
+                </a>
+                <div>
+                  <h5>
+                    Mechanical Keyboard
+                  </h5>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-3">
+              <div>
+                <a href="/product/2ZYFJ3GM2N">
+                  <img alt="" src="/static/img/products/campusloop/mini-dorm-fan.png">
+                </a>
+                <div>
+                  <h5>
+                    Mini Dorm Fan
+                  </h5>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-3">
+              <div>
+                <a href="/product/66VCHSJNUP">
+                  <img alt="" src="/static/img/products/campusloop/campus-club-hoodie.png">
+                </a>
+                <div>
+                  <h5>
+                    Campus Club Hoodie
+                  </h5>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-3">
+              <div>
+                <a href="/product/9SIQT8TOJO">
+                  <img alt="" src="/static/img/products/campusloop/reusable-water-bottle.png">
+                </a>
+                <div>
+                  <h5>
+                    Reusable Water Bottle
+                  </h5>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+    
+
+    
+
+<footer class="py-5">
+    <div class="footer-top">
+        <div class="container campusloop-footer-content">
+            <div class="campusloop-footer-main">
+                <div class="campusloop-footer-brand">
+                    <strong>CampusLoop</strong>
+                    <span>Campus finds, passed from student to student.</span>
+                </div>
+                <nav class="campusloop-footer-nav" aria-label="Footer navigation">
+                    <a href="/#recent-listings">Browse</a>
+                    <a href="/cart">Cart</a>
+                </nav>
+            </div>
+            <div class="campusloop-footer-bottom">
+                <span>Student marketplace for campus reuse.</span>
+                <details class="campusloop-system-details">
+                    <summary>System details</summary>
+                    <div>
+                        session-id: 1aa5c3bd-93dd-4326-bb48-1216b4848d5d<br>
+                        request-id: 4e024ff7-b68a-4e56-96f3-1abc8ee557ed<br>
+                    
+                        
+                        <b>Cluster: </b>campusloop-cluster<br/>
+                        
+                        
+                        <b>Zone: </b>us-east1-d<br/>
+                        
+                        
+                        <b>Pod: </b>frontend-7d865684c4-qtl9r
+                        
+                    
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>
+

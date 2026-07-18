@@ -1,0 +1,59 @@
+{{ define "my-listings" }}
+{{ template "header" . }}
+<main role="main" class="campusloop-dashboard-page">
+  <section class="campusloop-dashboard-card">
+    <div class="campusloop-dashboard-header">
+      <div>
+        <p class="campusloop-eyebrow">Seller tools</p>
+        <h1>My listings</h1>
+      </div>
+      <a href="{{ $.baseUrl }}/post-item" class="campusloop-button campusloop-button-primary">Post item</a>
+    </div>
+    <div class="campusloop-dashboard-list" data-my-listings-page-list></div>
+    <p class="campusloop-empty-listings" data-empty-listings>No listings yet.</p>
+  </section>
+</main>
+
+<script>
+  (function () {
+    if (!window.CampusLoopAuth || !window.CampusLoopAuth.getUser()) {
+      window.location.href = '{{ $.baseUrl }}/login?next={{ $.baseUrl }}/my-listings';
+      return;
+    }
+    const list = document.querySelector('[data-my-listings-page-list]');
+    const empty = document.querySelector('[data-empty-listings]');
+    if (!list || !empty) {
+      return;
+    }
+
+    function getStoredListings() {
+      try {
+        return JSON.parse(window.localStorage.getItem('campusloop-my-listings')) || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    const listings = getStoredListings();
+    empty.hidden = listings.length !== 0;
+    listings.forEach(function (listing) {
+      const row = document.createElement('div');
+      row.className = 'campusloop-my-listing';
+      row.innerHTML = [
+        '<div>',
+          '<strong></strong>',
+          '<span></span>',
+          '<small></small>',
+        '</div>',
+        '<b></b>'
+      ].join('');
+      row.querySelector('strong').textContent = listing.name || 'CampusLoop item';
+      row.querySelector('span').textContent = (listing.status || 'Available') + ' · ' + (listing.categoryLabel || listing.category || 'Other') + ' · ' + (listing.pickup || 'Pickup TBD');
+      row.querySelector('small').textContent = (listing.campus || 'Northeastern') + ' · ' + (listing.dorm || 'Dorm area TBD') + ' · ' + (listing.handoff || 'Handoff time TBD');
+      row.querySelector('b').textContent = '$' + (listing.price || '0');
+      list.appendChild(row);
+    });
+  }());
+</script>
+{{ template "footer" . }}
+{{ end }}

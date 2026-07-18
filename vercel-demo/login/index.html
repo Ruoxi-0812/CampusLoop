@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        
+        CampusLoop
+        
+    </title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Nunito+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/static/styles/styles.css?v=campusloop-topbar-actions-left-135">
+    <link rel="stylesheet" type="text/css" href="/static/styles/cart.css?v=campusloop-fonts">
+    <link rel="stylesheet" type="text/css" href="/static/styles/order.css">
+    <link rel="stylesheet" type="text/css" href="/static/styles/bot.css">
+    
+    <link rel='shortcut icon' type='image/png' href='/static/icons/CampusLoop_UserLogo.png?v=campusloop-favicon-balanced-white' />
+    
+</head>
+
+<body>
+    <header>
+        
+        <div class="navbar sub-navbar">
+            <div class="container d-flex justify-content-between">
+                <a href="/" class="navbar-brand d-flex align-items-center">
+                    
+                    <span class="campusloop-logo">
+                        <img src="/static/icons/CampusLoop_UserLogo.png" alt="" class="campusloop-logo-mark" width="42" height="40" />
+                        <span class="campusloop-logo-text">CampusLoop</span>
+                    </span>
+                    
+                </a>
+                <div class="campusloop-topbar-primary">
+                    
+                    <form class="campusloop-search" action="/" method="GET" role="search">
+                        <label for="campusloop-search-input" class="sr-only">Search CampusLoop</label>
+                        <img class="campusloop-search-icon" src="/static/icons/Hipster_SearchIcon.svg" alt="" aria-hidden="true">
+                        <input id="campusloop-search-input" name="q" type="search" placeholder="Search items..." autocomplete="off">
+                    </form>
+                    
+
+                    
+                    <details class="campusloop-menu">
+                        <summary aria-label="Open CampusLoop menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </summary>
+                        <div class="campusloop-menu-panel">
+                            <div>
+                                <strong>Browse</strong>
+                                <a href="/#recent-listings" data-category-filter="textbooks">Textbooks</a>
+                                <a href="/#recent-listings" data-category-filter="furniture">Furniture</a>
+                                <a href="/#recent-listings" data-category-filter="dorm">Dorm</a>
+                                <a href="/#recent-listings" data-category-filter="electronics">Electronics</a>
+                                <a href="/#recent-listings" data-category-filter="clothing">Clothing</a>
+                                <a href="/#recent-listings" data-category-filter="transportation">Transportation</a>
+                                <a href="/#recent-listings" data-category-filter="essentials">Essentials</a>
+                                <a href="/#recent-listings" data-category-filter="other">Other</a>
+                            </div>
+                            <div>
+                                <strong>Sell</strong>
+                                <a href="/post-item" data-account-action="create">Post item</a>
+                                <a href="/my-listings">My listings</a>
+                            </div>
+                            <div>
+                                <strong>Account</strong>
+                                <a href="/login">Log in</a>
+                                <a href="/signup">Create account</a>
+                            </div>
+                        </div>
+                    </details>
+                    
+
+                    
+                </div>
+
+                <div class="campusloop-topbar-account">
+
+                    
+                    <a href="/login" class="campusloop-topbar-signin" data-auth-signin>Log in</a>
+                    <details class="campusloop-user-menu" data-auth-user-menu hidden>
+                        <summary aria-label="Open account menu">
+                            <span class="campusloop-avatar" data-auth-avatar>ST</span>
+                        </summary>
+                        <div class="campusloop-user-menu-panel">
+                            <strong data-auth-name>Student</strong>
+                            <span data-auth-role>Buyer</span>
+                            <a href="/messages">Messages</a>
+                            <a href="/my-listings">My listings</a>
+                            <button type="button" data-auth-logout>Logout</button>
+                        </div>
+                    </details>
+                    
+
+                    
+
+                    <a href="/cart" class="cart-link">
+                        <img src="/static/icons/Hipster_CartIcon.svg" alt="Cart icon" class="logo" title="Cart" />
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </header>
+    <script>
+      (function () {
+        function getUser() {
+          try {
+            return JSON.parse(window.localStorage.getItem('campusloop-user')) || null;
+          } catch (error) {
+            return null;
+          }
+        }
+
+        function initials(name, email) {
+          const value = String(name || email || 'Student').trim();
+          const parts = value.split(/\s+/).filter(Boolean);
+          if (parts.length > 1) {
+            return (parts[0][0] + parts[1][0]).toUpperCase();
+          }
+          return value.slice(0, 2).toUpperCase();
+        }
+
+        function updateAuthUI() {
+          const user = getUser();
+          const signIn = document.querySelector('[data-auth-signin]');
+          const userMenu = document.querySelector('[data-auth-user-menu]');
+          const avatar = document.querySelector('[data-auth-avatar]');
+          const name = document.querySelector('[data-auth-name]');
+          const role = document.querySelector('[data-auth-role]');
+
+          if (signIn) {
+            signIn.hidden = Boolean(user);
+          }
+          if (userMenu) {
+            userMenu.hidden = !user;
+          }
+          if (user && avatar) {
+            avatar.textContent = initials(user.name, user.email);
+          }
+          if (user && name) {
+            name.textContent = user.name || user.email || 'Student';
+          }
+          if (user && role) {
+            role.textContent = user.role === 'seller' ? 'Seller mode' : 'Buyer mode';
+          }
+          document.documentElement.classList.toggle('campusloop-signed-in', Boolean(user));
+        }
+
+        document.addEventListener('click', function (event) {
+          const logout = event.target.closest('[data-auth-logout]');
+          if (logout) {
+            event.preventDefault();
+            window.localStorage.removeItem('campusloop-user');
+            updateAuthUI();
+            if (window.location.pathname !== '/') {
+              window.location.href = '/';
+            }
+          }
+        });
+
+        updateAuthUI();
+        window.CampusLoopAuth = {
+          getUser: getUser,
+          update: updateAuthUI
+        };
+      }());
+    </script>
+    
+<main role="main" class="campusloop-signin-page">
+  <section class="campusloop-signin-card">
+    <p class="campusloop-eyebrow">CampusLoop account</p>
+    <div class="campusloop-auth-tabs" aria-label="Account mode">
+      <button type="button" data-auth-mode="login">Log in</button>
+      <button type="button" data-auth-mode="signup">Create account</button>
+    </div>
+    <form id="campusloop-signin-page-form" class="campusloop-signin-form">
+      <label>
+        Email
+        <input type="email" name="email" placeholder="student@example.com" required>
+      </label>
+      <label>
+        Display name
+        <input type="text" name="name" placeholder="Alex" required>
+      </label>
+      <label class="campusloop-role-toggle">
+        <input type="checkbox" name="seller">
+        <span>I also want to sell items</span>
+      </label>
+      <button type="submit" class="campusloop-button campusloop-button-primary" data-auth-submit>Continue</button>
+    </form>
+  </section>
+</main>
+
+<script>
+  (function () {
+    const form = document.getElementById('campusloop-signin-page-form');
+    if (!form) {
+      return;
+    }
+    const submit = document.querySelector('[data-auth-submit]');
+    const modeButtons = Array.from(document.querySelectorAll('[data-auth-mode]'));
+    const params = new URLSearchParams(window.location.search);
+    let mode = window.location.pathname.endsWith('/signup') || params.get('mode') === 'signup' ? 'signup' : 'login';
+
+    function setMode(nextMode) {
+      mode = nextMode === 'signup' ? 'signup' : 'login';
+      modeButtons.forEach(function (button) {
+        const active = button.dataset.authMode === mode;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      if (submit) {
+        submit.textContent = mode === 'signup' ? 'Create account' : 'Log in';
+      }
+    }
+
+    modeButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        setMode(button.dataset.authMode);
+      });
+    });
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const email = String(formData.get('email') || '').trim();
+      const fallbackName = email ? email.split('@')[0] : 'Student';
+      const user = {
+        email: email,
+        name: String(formData.get('name') || fallbackName).trim(),
+        role: formData.get('seller') ? 'seller' : 'buyer'
+      };
+      window.localStorage.setItem('campusloop-user', JSON.stringify(user));
+      window.location.href = params.get('next') || '/';
+    });
+    setMode(mode);
+  }());
+</script>
+
+
+
+<footer class="py-5">
+    <div class="footer-top">
+        <div class="container campusloop-footer-content">
+            <div class="campusloop-footer-main">
+                <div class="campusloop-footer-brand">
+                    <strong>CampusLoop</strong>
+                    <span>Campus finds, passed from student to student.</span>
+                </div>
+                <nav class="campusloop-footer-nav" aria-label="Footer navigation">
+                    <a href="/#recent-listings">Browse</a>
+                    <a href="/cart">Cart</a>
+                </nav>
+            </div>
+            <div class="campusloop-footer-bottom">
+                <span>Student marketplace for campus reuse.</span>
+                <details class="campusloop-system-details">
+                    <summary>System details</summary>
+                    <div>
+                        session-id: 28680783-f009-47e9-9c88-ebdb970073a0<br>
+                        request-id: 2980c27f-21a4-4e7c-be79-018b2ea83583<br>
+                    
+                        
+                        <b>Cluster: </b>campusloop-cluster<br/>
+                        
+                        
+                        <b>Zone: </b>us-east1-d<br/>
+                        
+                        
+                        <b>Pod: </b>frontend-7d865684c4-qtl9r
+                        
+                    
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>
+

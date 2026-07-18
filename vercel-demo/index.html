@@ -1,0 +1,750 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        
+        CampusLoop
+        
+    </title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Nunito+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/static/styles/styles.css?v=campusloop-topbar-actions-left-135">
+    <link rel="stylesheet" type="text/css" href="/static/styles/cart.css?v=campusloop-fonts">
+    <link rel="stylesheet" type="text/css" href="/static/styles/order.css">
+    <link rel="stylesheet" type="text/css" href="/static/styles/bot.css">
+    
+    <link rel='shortcut icon' type='image/png' href='/static/icons/CampusLoop_UserLogo.png?v=campusloop-favicon-balanced-white' />
+    
+</head>
+
+<body>
+    <header>
+        
+        <div class="navbar sub-navbar">
+            <div class="container d-flex justify-content-between">
+                <a href="/" class="navbar-brand d-flex align-items-center">
+                    
+                    <span class="campusloop-logo">
+                        <img src="/static/icons/CampusLoop_UserLogo.png" alt="" class="campusloop-logo-mark" width="42" height="40" />
+                        <span class="campusloop-logo-text">CampusLoop</span>
+                    </span>
+                    
+                </a>
+                <div class="campusloop-topbar-primary">
+                    
+                    <form class="campusloop-search" action="/" method="GET" role="search">
+                        <label for="campusloop-search-input" class="sr-only">Search CampusLoop</label>
+                        <img class="campusloop-search-icon" src="/static/icons/Hipster_SearchIcon.svg" alt="" aria-hidden="true">
+                        <input id="campusloop-search-input" name="q" type="search" placeholder="Search items..." autocomplete="off">
+                    </form>
+                    
+
+                    
+                    <details class="campusloop-menu">
+                        <summary aria-label="Open CampusLoop menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </summary>
+                        <div class="campusloop-menu-panel">
+                            <div>
+                                <strong>Browse</strong>
+                                <a href="/#recent-listings" data-category-filter="textbooks">Textbooks</a>
+                                <a href="/#recent-listings" data-category-filter="furniture">Furniture</a>
+                                <a href="/#recent-listings" data-category-filter="dorm">Dorm</a>
+                                <a href="/#recent-listings" data-category-filter="electronics">Electronics</a>
+                                <a href="/#recent-listings" data-category-filter="clothing">Clothing</a>
+                                <a href="/#recent-listings" data-category-filter="transportation">Transportation</a>
+                                <a href="/#recent-listings" data-category-filter="essentials">Essentials</a>
+                                <a href="/#recent-listings" data-category-filter="other">Other</a>
+                            </div>
+                            <div>
+                                <strong>Sell</strong>
+                                <a href="/post-item" data-account-action="create">Post item</a>
+                                <a href="/my-listings">My listings</a>
+                            </div>
+                            <div>
+                                <strong>Account</strong>
+                                <a href="/login">Log in</a>
+                                <a href="/signup">Create account</a>
+                            </div>
+                        </div>
+                    </details>
+                    
+
+                    
+                    <div class="h-controls">
+                        <div class="h-control">
+                            <span class="icon currency-icon"> $</span>
+                            <form method="POST" class="controls-form" action="/setCurrency" id="currency_form" >
+                                <select name="currency_code" onchange="document.getElementById('currency_form').submit();">
+                                        
+                                    <option value="EUR" >EUR</option>
+                                    
+                                    <option value="USD" selected="selected">USD</option>
+                                    
+                                    <option value="JPY" >JPY</option>
+                                    
+                                    <option value="GBP" >GBP</option>
+                                    
+                                    <option value="TRY" >TRY</option>
+                                    
+                                    <option value="CAD" >CAD</option>
+                                    
+                                </select>
+                            </form>
+                            <img src="/static/icons/Hipster_DownArrow.svg" alt="" class="icon arrow" />
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="campusloop-topbar-account">
+
+                    
+                    <a href="/login" class="campusloop-topbar-signin" data-auth-signin>Log in</a>
+                    <details class="campusloop-user-menu" data-auth-user-menu hidden>
+                        <summary aria-label="Open account menu">
+                            <span class="campusloop-avatar" data-auth-avatar>ST</span>
+                        </summary>
+                        <div class="campusloop-user-menu-panel">
+                            <strong data-auth-name>Student</strong>
+                            <span data-auth-role>Buyer</span>
+                            <a href="/messages">Messages</a>
+                            <a href="/my-listings">My listings</a>
+                            <button type="button" data-auth-logout>Logout</button>
+                        </div>
+                    </details>
+                    
+
+                    
+
+                    <a href="/cart" class="cart-link">
+                        <img src="/static/icons/Hipster_CartIcon.svg" alt="Cart icon" class="logo" title="Cart" />
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </header>
+    <script>
+      (function () {
+        function getUser() {
+          try {
+            return JSON.parse(window.localStorage.getItem('campusloop-user')) || null;
+          } catch (error) {
+            return null;
+          }
+        }
+
+        function initials(name, email) {
+          const value = String(name || email || 'Student').trim();
+          const parts = value.split(/\s+/).filter(Boolean);
+          if (parts.length > 1) {
+            return (parts[0][0] + parts[1][0]).toUpperCase();
+          }
+          return value.slice(0, 2).toUpperCase();
+        }
+
+        function updateAuthUI() {
+          const user = getUser();
+          const signIn = document.querySelector('[data-auth-signin]');
+          const userMenu = document.querySelector('[data-auth-user-menu]');
+          const avatar = document.querySelector('[data-auth-avatar]');
+          const name = document.querySelector('[data-auth-name]');
+          const role = document.querySelector('[data-auth-role]');
+
+          if (signIn) {
+            signIn.hidden = Boolean(user);
+          }
+          if (userMenu) {
+            userMenu.hidden = !user;
+          }
+          if (user && avatar) {
+            avatar.textContent = initials(user.name, user.email);
+          }
+          if (user && name) {
+            name.textContent = user.name || user.email || 'Student';
+          }
+          if (user && role) {
+            role.textContent = user.role === 'seller' ? 'Seller mode' : 'Buyer mode';
+          }
+          document.documentElement.classList.toggle('campusloop-signed-in', Boolean(user));
+        }
+
+        document.addEventListener('click', function (event) {
+          const logout = event.target.closest('[data-auth-logout]');
+          if (logout) {
+            event.preventDefault();
+            window.localStorage.removeItem('campusloop-user');
+            updateAuthUI();
+            if (window.location.pathname !== '/') {
+              window.location.href = '/';
+            }
+          }
+        });
+
+        updateAuthUI();
+        window.CampusLoopAuth = {
+          getUser: getUser,
+          update: updateAuthUI
+        };
+      }());
+    </script>
+    
+<main role="main" class="home">
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-12 col-lg-12 px-10-percent">
+
+        <section class="campusloop-hero" data-guest-hero>
+          <div class="campusloop-hero-main">
+            <p class="campusloop-eyebrow">Northeastern marketplace</p>
+            <h1>Campus finds, student to student</h1>
+            <p class="campusloop-hero-copy">Buy, sell, and pick up around Northeastern.</p>
+          </div>
+          <div class="campusloop-auth-card">
+            <div class="campusloop-auth-actions">
+              <a href="/login" id="campusloop-sign-in" class="campusloop-button campusloop-button-primary">Log in</a>
+              <a href="/post-item" id="campusloop-create-account" class="campusloop-button campusloop-button-secondary">Sell</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="recent-listings" class="campusloop-listings-header px-xl-6">
+          <div>
+            <h3>Recently Listed</h3>
+            <p>Northeastern student listings near Boston campus.</p>
+          </div>
+          <div class="campusloop-category-tabs" aria-label="Listing categories">
+            <button type="button" class="active" data-category-filter="all">All</button>
+            <button type="button" data-category-filter="textbooks">Textbooks</button>
+            <button type="button" data-category-filter="furniture">Furniture</button>
+            <button type="button" data-category-filter="dorm">Dorm</button>
+            <button type="button" data-category-filter="electronics">Electronics</button>
+            <button type="button" data-category-filter="clothing">Clothing</button>
+            <button type="button" data-category-filter="essentials">Essentials</button>
+            <button type="button" data-category-filter="other">Other</button>
+          </div>
+        </section>
+
+        <div id="campusloop-listings-grid" class="row hot-products-row px-xl-6">
+
+          
+          <div class="col-md-4 hot-product-card" data-categories="textbooks math ">
+            <div class="campusloop-card">
+              <a href="/product/OLJCESPC7Z" class="campusloop-card-media">
+                <img loading="lazy" src="/static/img/products/campusloop/used-calculus-textbook.png" alt="Used Calculus Textbook">
+                <span class="campusloop-price-pill">$32.98</span>
+                <span class="campusloop-status-pill">Available</span>
+                <div class="hot-product-card-img-overlay"></div>
+              </a>
+              <div class="campusloop-card-body">
+                <div class="hot-product-card-name">Used Calculus Textbook</div>
+                <div class="campusloop-card-footer">
+                  <span>Northeastern</span>
+                  <span>View item</span>
+                </div>
+                <div class="campusloop-card-hover-info">
+                  <span>Pickup near Snell Library</span>
+                  <span>Online checkout</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4 hot-product-card" data-categories="clothing campus ">
+            <div class="campusloop-card">
+              <a href="/product/66VCHSJNUP" class="campusloop-card-media">
+                <img loading="lazy" src="/static/img/products/campusloop/campus-club-hoodie.png" alt="Campus Club Hoodie">
+                <span class="campusloop-price-pill">$24.99</span>
+                <span class="campusloop-status-pill">Available</span>
+                <div class="hot-product-card-img-overlay"></div>
+              </a>
+              <div class="campusloop-card-body">
+                <div class="hot-product-card-name">Campus Club Hoodie</div>
+                <div class="campusloop-card-footer">
+                  <span>Northeastern</span>
+                  <span>View item</span>
+                </div>
+                <div class="campusloop-card-hover-info">
+                  <span>Pickup near Snell Library</span>
+                  <span>Online checkout</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4 hot-product-card" data-categories="electronics dorm ">
+            <div class="campusloop-card">
+              <a href="/product/1YMWWN1N4O" class="campusloop-card-media">
+                <img loading="lazy" src="/static/img/products/campusloop/study-desk-monitor.png" alt="Used 24-inch Study Monitor">
+                <span class="campusloop-price-pill">$85.98</span>
+                <span class="campusloop-status-pill">Available</span>
+                <div class="hot-product-card-img-overlay"></div>
+              </a>
+              <div class="campusloop-card-body">
+                <div class="hot-product-card-name">Used 24-inch Study Monitor</div>
+                <div class="campusloop-card-footer">
+                  <span>Northeastern</span>
+                  <span>View item</span>
+                </div>
+                <div class="campusloop-card-hover-info">
+                  <span>Pickup near Snell Library</span>
+                  <span>Online checkout</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4 hot-product-card" data-categories="transportation campus ">
+            <div class="campusloop-card">
+              <a href="/product/L9ECAV7KIM" class="campusloop-card-media">
+                <img loading="lazy" src="/static/img/products/campusloop/commuter-bike.png" alt="Commuter Bike">
+                <span class="campusloop-price-pill">$120.98</span>
+                <span class="campusloop-status-pill">Available</span>
+                <div class="hot-product-card-img-overlay"></div>
+              </a>
+              <div class="campusloop-card-body">
+                <div class="hot-product-card-name">Commuter Bike</div>
+                <div class="campusloop-card-footer">
+                  <span>Northeastern</span>
+                  <span>View item</span>
+                </div>
+                <div class="campusloop-card-hover-info">
+                  <span>Pickup near Snell Library</span>
+                  <span>Online checkout</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4 hot-product-card" data-categories="dorm appliances ">
+            <div class="campusloop-card">
+              <a href="/product/2ZYFJ3GM2N" class="campusloop-card-media">
+                <img loading="lazy" src="/static/img/products/campusloop/mini-dorm-fan.png" alt="Mini Dorm Fan">
+                <span class="campusloop-price-pill">$14.98</span>
+                <span class="campusloop-status-pill">Available</span>
+                <div class="hot-product-card-img-overlay"></div>
+              </a>
+              <div class="campusloop-card-body">
+                <div class="hot-product-card-name">Mini Dorm Fan</div>
+                <div class="campusloop-card-footer">
+                  <span>Northeastern</span>
+                  <span>View item</span>
+                </div>
+                <div class="campusloop-card-hover-info">
+                  <span>Pickup near Snell Library</span>
+                  <span>Online checkout</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4 hot-product-card" data-categories="dorm study ">
+            <div class="campusloop-card">
+              <a href="/product/0PUK6V6EV0" class="campusloop-card-media">
+                <img loading="lazy" src="/static/img/products/campusloop/adjustable-desk-lamp.png" alt="Adjustable Desk Lamp">
+                <span class="campusloop-price-pill">$16.98</span>
+                <span class="campusloop-status-pill">Available</span>
+                <div class="hot-product-card-img-overlay"></div>
+              </a>
+              <div class="campusloop-card-body">
+                <div class="hot-product-card-name">Adjustable Desk Lamp</div>
+                <div class="campusloop-card-footer">
+                  <span>Northeastern</span>
+                  <span>View item</span>
+                </div>
+                <div class="campusloop-card-hover-info">
+                  <span>Pickup near Snell Library</span>
+                  <span>Online checkout</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4 hot-product-card" data-categories="electronics study ">
+            <div class="campusloop-card">
+              <a href="/product/LS4PSXUNUM" class="campusloop-card-media">
+                <img loading="lazy" src="/static/img/products/campusloop/mechanical-keyboard.png" alt="Mechanical Keyboard">
+                <span class="campusloop-price-pill">$39.49</span>
+                <span class="campusloop-status-pill">Available</span>
+                <div class="hot-product-card-img-overlay"></div>
+              </a>
+              <div class="campusloop-card-body">
+                <div class="hot-product-card-name">Mechanical Keyboard</div>
+                <div class="campusloop-card-footer">
+                  <span>Northeastern</span>
+                  <span>View item</span>
+                </div>
+                <div class="campusloop-card-hover-info">
+                  <span>Pickup near Snell Library</span>
+                  <span>Online checkout</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4 hot-product-card" data-categories="campus essentials ">
+            <div class="campusloop-card">
+              <a href="/product/9SIQT8TOJO" class="campusloop-card-media">
+                <img loading="lazy" src="/static/img/products/campusloop/reusable-water-bottle.png" alt="Reusable Water Bottle">
+                <span class="campusloop-price-pill">$9.48</span>
+                <span class="campusloop-status-pill">Available</span>
+                <div class="hot-product-card-img-overlay"></div>
+              </a>
+              <div class="campusloop-card-body">
+                <div class="hot-product-card-name">Reusable Water Bottle</div>
+                <div class="campusloop-card-footer">
+                  <span>Northeastern</span>
+                  <span>View item</span>
+                </div>
+                <div class="campusloop-card-hover-info">
+                  <span>Pickup near Snell Library</span>
+                  <span>Online checkout</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4 hot-product-card" data-categories="textbooks computer-science ">
+            <div class="campusloop-card">
+              <a href="/product/6E92ZMYYFZ" class="campusloop-card-media">
+                <img loading="lazy" src="/static/img/products/campusloop/intro-cs-notes-bundle.png" alt="Intro CS Notes Bundle">
+                <span class="campusloop-price-pill">$12.98</span>
+                <span class="campusloop-status-pill">Available</span>
+                <div class="hot-product-card-img-overlay"></div>
+              </a>
+              <div class="campusloop-card-body">
+                <div class="hot-product-card-name">Intro CS Notes Bundle</div>
+                <div class="campusloop-card-footer">
+                  <span>Northeastern</span>
+                  <span>View item</span>
+                </div>
+                <div class="campusloop-card-hover-info">
+                  <span>Pickup near Snell Library</span>
+                  <span>Online checkout</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
+        </div>
+
+        <p class="campusloop-no-results" hidden>No listings match your search yet.</p>
+
+        
+        <div class="row d-none d-lg-block home-desktop-footer-row">
+          <div class="col-12 p-0">
+            
+
+<footer class="py-5">
+    <div class="footer-top">
+        <div class="container campusloop-footer-content">
+            <div class="campusloop-footer-main">
+                <div class="campusloop-footer-brand">
+                    <strong>CampusLoop</strong>
+                    <span>Campus finds, passed from student to student.</span>
+                </div>
+                <nav class="campusloop-footer-nav" aria-label="Footer navigation">
+                    <a href="/#recent-listings">Browse</a>
+                    <a href="/cart">Cart</a>
+                </nav>
+            </div>
+            <div class="campusloop-footer-bottom">
+                <span>Student marketplace for campus reuse.</span>
+                <details class="campusloop-system-details">
+                    <summary>System details</summary>
+                    <div>
+                        session-id: 6af43b78-4841-4232-b503-340c8247c988<br>
+                        request-id: c13b8bb6-bd1a-4049-ba79-87e8616b11b3<br>
+                    
+                        
+                        <b>Cluster: </b>campusloop-cluster<br/>
+                        
+                        
+                        <b>Zone: </b>us-east1-d<br/>
+                        
+                        
+                        <b>Pod: </b>frontend-7d865684c4-qtl9r
+                        
+                    
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script>
+  (function () {
+    const searchInput = document.getElementById('campusloop-search-input');
+    const cards = Array.from(document.querySelectorAll('.hot-product-card'));
+    const noResults = document.querySelector('.campusloop-no-results');
+    const categoryControls = Array.from(document.querySelectorAll('[data-category-filter]'));
+    const recentListings = document.getElementById('recent-listings');
+    const signInButton = document.getElementById('campusloop-sign-in');
+    const createAccountButton = document.getElementById('campusloop-create-account');
+    const guestHero = document.querySelector('[data-guest-hero]');
+    const listingsGrid = document.getElementById('campusloop-listings-grid');
+    const listingsStorageKey = 'campusloop-my-listings';
+    let activeCategory = 'all';
+
+    if (!searchInput || cards.length === 0) {
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const initialQuery = params.get('q') || '';
+    const initialCategory = params.get('category') || 'all';
+    searchInput.value = initialQuery;
+
+    function normalizeCategory(category) {
+      return (category || 'all').trim().toLowerCase();
+    }
+
+    function setActiveCategory(category) {
+      activeCategory = normalizeCategory(category);
+      categoryControls.forEach(function (control) {
+        const controlCategory = normalizeCategory(control.dataset.categoryFilter);
+        const isActive = controlCategory === activeCategory || (activeCategory === 'all' && controlCategory === 'all');
+        control.classList.toggle('active', isActive);
+        if (control.tagName === 'BUTTON') {
+          control.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        }
+      });
+    }
+
+    function applyFilters() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+      cards.forEach(function (card) {
+        const text = card.textContent.toLowerCase();
+        const categories = (card.dataset.categories || '').toLowerCase().split(/\s+/);
+        const matchesSearch = query === '' || text.includes(query);
+        const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
+        const visible = matchesSearch && matchesCategory;
+        card.hidden = !visible;
+        if (visible) {
+          visibleCount += 1;
+        }
+      });
+      if (noResults) {
+        noResults.hidden = visibleCount !== 0;
+      }
+    }
+
+    function scrollToListings() {
+      if (recentListings) {
+        recentListings.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function getStoredListings() {
+      try {
+        return JSON.parse(window.localStorage.getItem(listingsStorageKey)) || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>"']/g, function (character) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[character];
+      });
+    }
+
+    function listingImage(listing) {
+      return listing.image || '/static/images/folded-clothes-on-white-chair.jpg';
+    }
+
+    function listingCardMarkup(listing) {
+      const statusClass = String(listing.status || 'Available').toLowerCase();
+      return [
+        '<div class="campusloop-card">',
+          '<a href="/my-listings" class="campusloop-card-media">',
+            '<img loading="lazy" src="' + escapeHtml(listingImage(listing)) + '" alt="' + escapeHtml(listing.name) + '">',
+            '<span class="campusloop-price-pill">$' + escapeHtml(listing.price) + '</span>',
+            '<span class="campusloop-status-pill campusloop-status-' + escapeHtml(statusClass) + '">' + escapeHtml(listing.status) + '</span>',
+            '<div class="hot-product-card-img-overlay"></div>',
+          '</a>',
+          '<div class="campusloop-card-body">',
+            '<div class="hot-product-card-name">' + escapeHtml(listing.name) + '</div>',
+            '<div class="campusloop-card-footer">',
+              '<span>' + escapeHtml(listing.categoryLabel) + '</span>',
+              '<span>' + escapeHtml(listing.status) + '</span>',
+            '</div>',
+            '<div class="campusloop-card-hover-info">',
+              '<span>' + escapeHtml(listing.pickup) + '</span>',
+              '<span>' + escapeHtml(listing.contact) + '</span>',
+            '</div>',
+          '</div>',
+        '</div>'
+      ].join('');
+    }
+
+    function renderStoredListingCards() {
+      if (!listingsGrid) {
+        return;
+      }
+      document.querySelectorAll('.campusloop-local-listing-card').forEach(function (card) {
+        card.remove();
+      });
+      getStoredListings().forEach(function (listing) {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 hot-product-card campusloop-local-listing-card';
+        card.dataset.categories = listing.category;
+        card.innerHTML = listingCardMarkup(listing);
+        listingsGrid.insertBefore(card, listingsGrid.firstChild);
+      });
+      cards.splice(0, cards.length);
+      Array.prototype.push.apply(cards, Array.from(document.querySelectorAll('.hot-product-card')));
+    }
+
+    categoryControls.forEach(function (control) {
+      control.addEventListener('click', function (event) {
+        const category = normalizeCategory(control.dataset.categoryFilter);
+        if (category === '') {
+          return;
+        }
+        event.preventDefault();
+        searchInput.value = '';
+        setActiveCategory(category);
+        applyFilters();
+        scrollToListings();
+      });
+    });
+
+    document.querySelectorAll('[data-account-action]').forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (link.dataset.accountAction === 'signin') {
+          window.location.href = '/signin';
+          return;
+        }
+        if (link.dataset.accountAction === 'login') {
+          window.location.href = '/login';
+          return;
+        }
+        if (link.dataset.accountAction === 'account-create') {
+          window.location.href = '/signup';
+          return;
+        }
+        if (link.dataset.accountAction === 'listings') {
+          window.location.href = '/my-listings';
+          return;
+        }
+        window.location.href = '/post-item';
+      });
+    });
+
+    if (signInButton) {
+      signInButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        window.location.href = '/login';
+      });
+    }
+
+    if (createAccountButton) {
+      createAccountButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        window.location.href = '/post-item';
+      });
+    }
+
+    setActiveCategory(initialCategory);
+    renderStoredListingCards();
+    if (guestHero && window.CampusLoopAuth && window.CampusLoopAuth.getUser()) {
+      guestHero.hidden = true;
+    }
+    searchInput.addEventListener('input', applyFilters);
+    searchInput.form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      applyFilters();
+      scrollToListings();
+    });
+    applyFilters();
+  }());
+</script>
+
+
+<div class="d-lg-none">
+  
+
+<footer class="py-5">
+    <div class="footer-top">
+        <div class="container campusloop-footer-content">
+            <div class="campusloop-footer-main">
+                <div class="campusloop-footer-brand">
+                    <strong>CampusLoop</strong>
+                    <span>Campus finds, passed from student to student.</span>
+                </div>
+                <nav class="campusloop-footer-nav" aria-label="Footer navigation">
+                    <a href="/#recent-listings">Browse</a>
+                    <a href="/cart">Cart</a>
+                </nav>
+            </div>
+            <div class="campusloop-footer-bottom">
+                <span>Student marketplace for campus reuse.</span>
+                <details class="campusloop-system-details">
+                    <summary>System details</summary>
+                    <div>
+                        session-id: 6af43b78-4841-4232-b503-340c8247c988<br>
+                        request-id: c13b8bb6-bd1a-4049-ba79-87e8616b11b3<br>
+                    
+                        
+                        <b>Cluster: </b>campusloop-cluster<br/>
+                        
+                        
+                        <b>Zone: </b>us-east1-d<br/>
+                        
+                        
+                        <b>Pod: </b>frontend-7d865684c4-qtl9r
+                        
+                    
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>
+
+</div>
+

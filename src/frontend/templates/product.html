@@ -25,24 +25,56 @@
       <div class="product-info col-md-5">
         <div class="product-wrapper">
 
+          <p class="campusloop-product-eyebrow">Northeastern student listing</p>
           <h2>{{ $.product.Item.Name }}</h2>
           <p class="product-price">{{ renderMoney $.product.Price }}</p>
+          <button type="button" class="campusloop-save-button" data-save-item data-product-id="{{ $.product.Item.Id }}" data-product-name="{{ $.product.Item.Name }}">Save</button>
           <p>{{ $.product.Item.Description }}</p>
 
-          <div class="campusloop-listing-details">
+          <div class="campusloop-listing-details compact">
+            <div>
+              <span>Status</span>
+              <strong>Available</strong>
+            </div>
             <div>
               <span>Condition</span>
               <strong>Good</strong>
             </div>
             <div>
               <span>Pickup</span>
-              <strong>Near campus library</strong>
-            </div>
-            <div>
-              <span>Seller</span>
-              <strong>Verified student</strong>
+              <strong>Snell Library or Curry Student Center</strong>
             </div>
           </div>
+
+          <details class="campusloop-contact-panel">
+            <summary>Message seller</summary>
+            <div class="campusloop-message-chips" aria-label="Quick seller messages">
+              <button type="button" data-chat-prompt="Is this still available?">Is this still available?</button>
+              <button type="button" data-chat-prompt="Where can I pick this up?">Where can I pick this up?</button>
+              <button type="button" data-chat-prompt="What time works?">What time works?</button>
+            </div>
+            <div class="campusloop-chat-window" data-chat-window hidden>
+              <div class="campusloop-chat-header">
+                <div>
+                  <strong>Message seller</strong>
+                  <span>Usually replies after class</span>
+                </div>
+                <button type="button" data-chat-close aria-label="Close chat">Close</button>
+              </div>
+              <div class="campusloop-chat-messages" data-chat-messages>
+                <div class="campusloop-chat-bubble seller">Hi! Ask me about pickup or availability.</div>
+              </div>
+              <form class="campusloop-chat-form" data-chat-form>
+                <input type="text" name="message" placeholder="Type a message..." autocomplete="off">
+                <button type="submit">Send</button>
+              </form>
+            </div>
+          </details>
+
+          <details class="campusloop-pickup-panel">
+            <summary>Pickup details</summary>
+            <p>Northeastern University - Boston · Weekdays after 5pm · Public spots preferred.</p>
+          </details>
 
           {{ if $.packagingInfo }}
           <div class="product-packaging">
@@ -77,6 +109,7 @@
             </div>
             <button type="submit" class="cymbal-button-primary">Add To Cart</button>
           </form>
+          <p class="campusloop-checkout-note">Pay online, then coordinate pickup.</p>
         </div>
       </div>
     </div>
@@ -91,5 +124,134 @@
   </div>
 
 </main>
+<script>
+  (function () {
+    const chatWindow = document.querySelector('[data-chat-window]');
+    const messages = document.querySelector('[data-chat-messages]');
+    const chatForm = document.querySelector('[data-chat-form]');
+    const closeButton = document.querySelector('[data-chat-close]');
+    const prompts = Array.from(document.querySelectorAll('[data-chat-prompt]'));
+    const saveButton = document.querySelector('[data-save-item]');
+    const productName = '{{ $.product.Item.Name }}';
+    const productId = '{{ $.product.Item.Id }}';
+    const messagesStorageKey = 'campusloop-messages';
+    const savedStorageKey = 'campusloop-saved-items';
+
+    function getStoredList(key) {
+      try {
+        return JSON.parse(window.localStorage.getItem(key)) || [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveStoredList(key, value) {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function updateSaveButton() {
+      if (!saveButton) {
+        return;
+      }
+      const saved = getStoredList(savedStorageKey);
+      const isSaved = saved.some(function (item) {
+        return item.id === productId;
+      });
+      saveButton.classList.toggle('saved', isSaved);
+      saveButton.textContent = isSaved ? 'Saved' : 'Save';
+    }
+
+    if (saveButton) {
+      saveButton.addEventListener('click', function () {
+        const saved = getStoredList(savedStorageKey);
+        const existingIndex = saved.findIndex(function (item) {
+          return item.id === productId;
+        });
+        if (existingIndex >= 0) {
+          saved.splice(existingIndex, 1);
+        } else {
+          saved.push({
+            id: productId,
+            name: productName,
+            url: window.location.pathname
+          });
+        }
+        saveStoredList(savedStorageKey, saved);
+        updateSaveButton();
+      });
+      updateSaveButton();
+    }
+
+    if (!chatWindow || !messages || !chatForm) {
+      return;
+    }
+
+    function openChat() {
+      chatWindow.hidden = false;
+      const input = chatForm.querySelector('input');
+      if (input) {
+        input.focus({ preventScroll: true });
+      }
+    }
+
+    function addMessage(text, owner) {
+      const bubble = document.createElement('div');
+      bubble.className = 'campusloop-chat-bubble ' + owner;
+      bubble.textContent = text;
+      messages.appendChild(bubble);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function sellerReply(text) {
+      const reply = text.toLowerCase().includes('where')
+        ? 'Pickup works at Snell Library or Curry Student Center.'
+        : text.toLowerCase().includes('time')
+          ? 'Weekdays after 5pm usually work best.'
+          : 'Yes, it is still available right now.';
+      window.setTimeout(function () {
+        addMessage(reply, 'seller');
+        const storedMessages = getStoredList(messagesStorageKey);
+        storedMessages.push({
+          product: productName,
+          productId: productId,
+          text: text,
+          reply: reply,
+          createdAt: new Date().toISOString()
+        });
+        saveStoredList(messagesStorageKey, storedMessages);
+      }, 250);
+    }
+
+    prompts.forEach(function (button) {
+      button.addEventListener('click', function () {
+        const text = button.dataset.chatPrompt || button.textContent;
+        openChat();
+        addMessage(text, 'buyer');
+        sellerReply(text);
+      });
+    });
+
+    chatForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const input = chatForm.querySelector('input');
+      const text = input ? input.value.trim() : '';
+      if (!text) {
+        return;
+      }
+      openChat();
+      addMessage(text, 'buyer');
+      if (input) {
+        input.value = '';
+      }
+      sellerReply(text);
+    });
+
+    if (closeButton) {
+      closeButton.addEventListener('click', function () {
+        chatWindow.hidden = true;
+      });
+    }
+  }());
+</script>
 {{ template "footer" . }}
 {{ end }}
