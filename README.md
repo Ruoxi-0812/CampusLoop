@@ -10,53 +10,47 @@ CampusLoop is organized around a Go frontend and a set of commerce microservices
 
 ```mermaid
 flowchart TB
-  Student((Student))
-  Seller((Seller))
-  Demo["static demo\nVercel"]
-  Frontend["frontend\nGo templates"]
-  Catalog["product catalog\nGo"]
-  Cart["cart\nC# + Redis"]
-  Checkout["checkout\nGo"]
-  Payment["payment\nNode.js"]
-  Shipping["shipping\nGo"]
-  Email["email\nPython"]
-  Recommendation["recommendations\nPython"]
-  Ads["ads\nJava"]
-  Currency["currency\nNode.js"]
-  Products[("campus item catalog")]
-  Redis[("Redis cart store")]
-  K8s["Kubernetes manifests"]
+  User((User))
+  Load["loadgenerator"]
+  Frontend["frontend"]
+  Checkout["checkout"]
+  Ad["ad"]
+  Recommendation["recommendation"]
+  Catalog["productcatalog"]
+  Cart["cart"]
+  Redis[("Redis cache")]
+  Shipping["shipping"]
+  Currency["currency"]
+  Payment["payment"]
+  Email["email"]
 
-  Student -->|browse, buy, message| Demo
-  Seller -->|post item| Demo
-  Student -->|HTTP| Frontend
-  Seller -->|HTTP| Frontend
+  User -->|HTTP| Frontend
+  Load -->|HTTP| Frontend
 
+  Frontend --> Ad
+  Frontend --> Recommendation
   Frontend --> Catalog
   Frontend --> Cart
   Frontend --> Checkout
-  Frontend --> Recommendation
-  Frontend --> Ads
+  Frontend --> Shipping
   Frontend --> Currency
 
-  Catalog --> Products
+  Recommendation --> Catalog
   Cart --> Redis
-  Checkout --> Payment
+
+  Checkout --> Catalog
+  Checkout --> Cart
   Checkout --> Shipping
+  Checkout --> Currency
+  Checkout --> Payment
   Checkout --> Email
-  K8s --> Frontend
-  K8s --> Catalog
-  K8s --> Cart
-  K8s --> Checkout
 
   classDef frontend fill:#eadfe4,stroke:#b9b9b9,color:#111,font-weight:bold;
-  classDef backend fill:#f7f0d8,stroke:#b9b9b9,color:#111,font-weight:bold;
   classDef service fill:#ffffff,stroke:#b9b9b9,color:#444;
   classDef datastore fill:#ffffff,stroke:#999,color:#444;
-  class Demo,Frontend frontend;
-  class Catalog,Cart,Checkout,Payment,Shipping,Email,Recommendation,Ads,Currency backend;
-  class K8s service;
-  class Products,Redis datastore;
+  class Frontend frontend;
+  class Load,Checkout,Ad,Recommendation,Catalog,Cart,Shipping,Currency,Payment,Email service;
+  class Redis datastore;
 ```
 
 | Service | Technology | Description |
