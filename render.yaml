@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: campusloop
+    runtime: docker
+    plan: free
+    dockerfilePath: ./deploy/Dockerfile
+    dockerContext: .
+    healthCheckPath: /_healthz
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SEED_DEMO_CATALOG
+        value: "true"
+      - key: SEED_PASSWORD
+        generateValue: true

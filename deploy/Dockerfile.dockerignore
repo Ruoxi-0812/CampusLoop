@@ -1,0 +1,15 @@
+**
+!deploy/
+!deploy/Dockerfile
+!deploy/start.sh
+!src/
+!src/frontend/
+!src/frontend/**
+!src/marketplaceservice/
+!src/marketplaceservice/**
+!src/productcatalogservice/
+!src/productcatalogservice/products.json
+**/.env*
+**/*.test
+**/bin/
+**/node_modules/

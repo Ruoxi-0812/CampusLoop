@@ -34,3 +34,36 @@ jobs:
           grep -q "https://neuloop.vercel.app" README.md
           grep -q "vercel-demo" README.md
           grep -q "CampusLoop" README.md
+
+  marketplace-integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: campusloop
+          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_DB: campusloop_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U campusloop -d campusloop_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+          cache-dependency-path: |
+            src/marketplaceservice/go.sum
+            src/frontend/go.sum
+      - name: Test PostgreSQL transactions and concurrency
+        working-directory: src/marketplaceservice
+        env:
+          TEST_DATABASE_URL: postgres://campusloop:ci-only-password@127.0.0.1:5432/campusloop_test?sslmode=disable
+        run: go test -race -count=1 ./...
+      - name: Test frontend integration
+        working-directory: src/frontend
+        run: go test ./...

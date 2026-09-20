@@ -21,6 +21,8 @@ flowchart TB
   Catalog["productcatalog"]
   Cart["cart"]
   Redis[("Redis cache")]
+  Marketplace["marketplace: listings and reservations"]
+  Postgres[("PostgreSQL")]
   Shipping["shipping"]
   Currency["currency"]
   Payment["payment"]
@@ -39,6 +41,8 @@ flowchart TB
 
   Recommendation --> Catalog
   Cart --> Redis
+  Frontend -.->|optional HTTP proxy| Marketplace
+  Marketplace --> Postgres
 
   Checkout --> Catalog
   Checkout --> Cart
@@ -52,12 +56,14 @@ flowchart TB
   classDef datastore fill:#ffffff,stroke:#999,color:#444;
   class Frontend frontend;
   class Load,Checkout,Ad,Recommendation,Catalog,Cart,Shipping,Currency,Payment,Email service;
-  class Redis datastore;
+  class Redis,Postgres datastore;
+  class Marketplace service;
 ```
 
 | Service | Technology | Description |
 | --- | --- | --- |
 | frontend | Go templates, HTML, CSS, JavaScript | CampusLoop web UI for browsing, product details, account state, messages, listings, and post-item pages. |
+| marketplaceservice | Go + PostgreSQL | Persistent listings, authenticated reservations, cancellation, and seller-confirmed handoff. |
 | productcatalogservice | Go | Provides campus resale listings from the product catalog. |
 | cartservice | C# + Redis | Stores and retrieves cart data. |
 | checkoutservice | Go | Coordinates checkout, payment, shipping, and email confirmation. |
@@ -68,6 +74,16 @@ flowchart TB
 | recommendationservice | Python | Recommends related marketplace items. |
 | adservice | Java | Provides promotional messages for the storefront. |
 | deployment | Vercel + Kubernetes | Vercel hosts the static demo; Kubernetes manifests run the full microservices version. |
+
+## Persistent marketplace workflow
+
+The new Go + PostgreSQL marketplace service supports server-authenticated accounts, persistent listings, atomic item reservations, buyer cancellation and seller-confirmed handoff. PostgreSQL row locks, a partial unique index and persisted idempotency keys prevent duplicate reservations across service instances.
+
+```bash
+docker compose -f src/marketplaceservice/compose.yaml up -d --build
+```
+
+Open [the local marketplace](http://127.0.0.1:8081/). See [setup, API and transaction tests](src/marketplaceservice/README.md). The original Go frontend pages use this workflow when `MARKETPLACE_SERVICE_URL` is configured; compose starts that frontend on port 8081. The hosted Vercel site remains a static demo.
 
 ## Screenshots
 

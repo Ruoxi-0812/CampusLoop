@@ -11,9 +11,14 @@
     </div>
     <div class="campusloop-dashboard-list" data-my-listings-page-list></div>
     <p class="campusloop-empty-listings" data-empty-listings>No listings yet.</p>
+    {{ if $.marketplaceEnabled }}
+    <h2>Your reservations &amp; handoffs</h2>
+    <div class="campusloop-dashboard-list" data-reservation-list></div>
+    {{ end }}
   </section>
 </main>
 
+{{ if not $.marketplaceEnabled }}
 <script>
   (function () {
     if (!window.CampusLoopAuth || !window.CampusLoopAuth.getUser()) {
@@ -55,5 +60,6 @@
     });
   }());
 </script>
+{{ end }}
 {{ template "footer" . }}
 {{ end }}

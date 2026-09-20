@@ -2190,3 +2190,12 @@ the rules below could be extracted.
   width: 10px;
   height: 5px;
 }
+
+/* Feedback and actions reuse the existing CampusLoop forms and cards. */
+.campusloop-workflow-status { margin: 16px auto; padding: 12px 20px; max-width: 1100px; background: #fff5db; border-radius: 10px; color: #493c22; }
+.campusloop-my-listing { flex-wrap: wrap; gap: 12px; }
+.campusloop-my-listing a { color: inherit; font-weight: 700; }
+[data-reservation-list] { margin-top: 20px; }
+.campusloop-signin-form input[type="password"] { width: 100%; }
+.campusloop-my-listing > div { display: flex; flex-direction: column; gap: 4px; }
+.campusloop-dashboard-card > h2 { margin-top: 28px; font-size: 24px; font-weight: 700; }

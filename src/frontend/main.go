@@ -128,6 +128,20 @@ func main() {
 		srvPort = os.Getenv("PORT")
 	}
 	addr := os.Getenv("LISTEN_ADDR")
+	if os.Getenv("MARKETPLACE_ONLY") == "true" {
+		target := os.Getenv("MARKETPLACE_SERVICE_URL")
+		if target == "" {
+			log.Fatal("MARKETPLACE_SERVICE_URL is required")
+		}
+		r := mux.NewRouter()
+		if err := registerMarketplaceRoutes(r, baseUrl, target); err != nil {
+			log.Fatal(err)
+		}
+		r.PathPrefix(baseUrl + "/static/").Handler(http.StripPrefix(baseUrl+"/static/", http.FileServer(http.Dir("./static/"))))
+		r.HandleFunc(baseUrl+"/_healthz", func(w http.ResponseWriter, r *http.Request) { fmt.Fprint(w, "ok") })
+		log.Fatal(http.ListenAndServe(addr+":"+srvPort, ensureSessionID(r)))
+		return
+	}
 	mustMapEnv(&svc.productCatalogSvcAddr, "PRODUCT_CATALOG_SERVICE_ADDR")
 	mustMapEnv(&svc.currencySvcAddr, "CURRENCY_SERVICE_ADDR")
 	mustMapEnv(&svc.cartSvcAddr, "CART_SERVICE_ADDR")
@@ -146,6 +160,9 @@ func main() {
 	mustConnGRPC(ctx, &svc.adSvcConn, svc.adSvcAddr)
 
 	r := mux.NewRouter()
+	if err := registerMarketplaceRoutes(r, baseUrl, os.Getenv("MARKETPLACE_SERVICE_URL")); err != nil {
+		log.Fatal(err)
+	}
 	r.HandleFunc(baseUrl+"/", svc.homeHandler).Methods(http.MethodGet, http.MethodHead)
 	r.HandleFunc(baseUrl+"/login", svc.signInHandler).Methods(http.MethodGet, http.MethodHead)
 	r.HandleFunc(baseUrl+"/signin", svc.signInHandler).Methods(http.MethodGet, http.MethodHead)

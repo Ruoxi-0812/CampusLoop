@@ -63,7 +63,7 @@
               <a href="{{ $.baseUrl }}/product/{{.Item.Id}}" class="campusloop-card-media">
                 <img loading="lazy" src="{{ $.baseUrl }}{{.Item.Picture}}" alt="{{ .Item.Name }}">
                 <span class="campusloop-price-pill">{{ renderMoney .Price }}</span>
-                <span class="campusloop-status-pill">Available</span>
+                <span class="campusloop-status-pill">{{ if $.marketplaceEnabled }}{{ .Status }}{{ else }}Available{{ end }}</span>
                 <div class="hot-product-card-img-overlay"></div>
               </a>
               <div class="campusloop-card-body">
@@ -73,8 +73,8 @@
                   <span>View item</span>
                 </div>
                 <div class="campusloop-card-hover-info">
-                  <span>Pickup near Snell Library</span>
-                  <span>Online checkout</span>
+                  <span>{{ if $.marketplaceEnabled }}{{ .Pickup }}{{ else }}Pickup near Snell Library{{ end }}</span>
+                  <span>{{ if $.marketplaceEnabled }}Campus pickup{{ else }}Online checkout{{ end }}</span>
                 </div>
               </div>
             </div>
@@ -83,7 +83,7 @@
 
         </div>
 
-        <p class="campusloop-no-results" hidden>No listings match your search yet.</p>
+        <p class="campusloop-no-results" {{ if .products }}hidden{{ end }}>No listings match your search yet.</p>
 
         <!-- Footer for larger screens. -->
         <div class="row d-none d-lg-block home-desktop-footer-row">
@@ -164,6 +164,7 @@
     }
 
     function getStoredListings() {
+      if (window.CampusLoopBackend) return [];
       try {
         return JSON.parse(window.localStorage.getItem(listingsStorageKey)) || [];
       } catch (error) {

@@ -22,6 +22,7 @@ import (
 	"os"
 	"os/signal"
 	"sync"
+	"sync/atomic"
 	"syscall"
 	"time"
 
@@ -47,7 +48,7 @@ var (
 
 	port = "3550"
 
-	reloadCatalog bool
+	reloadCatalog atomic.Bool
 )
 
 func init() {
@@ -102,10 +103,10 @@ func main() {
 			sig := <-sigs
 			log.Printf("Received signal: %s", sig)
 			if sig == syscall.SIGUSR1 {
-				reloadCatalog = true
+				reloadCatalog.Store(true)
 				log.Infof("Enable catalog reloading")
 			} else {
-				reloadCatalog = false
+				reloadCatalog.Store(false)
 				log.Infof("Disable catalog reloading")
 			}
 		}

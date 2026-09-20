@@ -34,7 +34,7 @@
           <div class="campusloop-listing-details compact">
             <div>
               <span>Status</span>
-              <strong>Available</strong>
+              <strong data-listing-status>{{ if $.marketplaceEnabled }}{{ $.listing.Status }}{{ else }}Available{{ end }}</strong>
             </div>
             <div>
               <span>Condition</span>
@@ -42,10 +42,13 @@
             </div>
             <div>
               <span>Pickup</span>
-              <strong>Snell Library or Curry Student Center</strong>
+              <strong>{{ if $.marketplaceEnabled }}{{ $.listing.Pickup }}{{ else }}Snell Library or Curry Student Center{{ end }}</strong>
             </div>
           </div>
 
+          {{ if $.marketplaceEnabled }}
+          <details class="campusloop-contact-panel"><summary>Contact seller</summary><p>{{ index $.listing.Metadata "contact" }}</p></details>
+          {{ else }}
           <details class="campusloop-contact-panel">
             <summary>Message seller</summary>
             <div class="campusloop-message-chips" aria-label="Quick seller messages">
@@ -71,9 +74,10 @@
             </div>
           </details>
 
+          {{ end }}
           <details class="campusloop-pickup-panel">
             <summary>Pickup details</summary>
-            <p>Northeastern University - Boston · Weekdays after 5pm · Public spots preferred.</p>
+            {{ if $.marketplaceEnabled }}<p>{{ index $.listing.Metadata "campus" }} · {{ index $.listing.Metadata "handoff" }}</p><p>{{ index $.listing.Metadata "address" }}</p>{{ else }}<p>Northeastern University - Boston · Weekdays after 5pm · Public spots preferred.</p>{{ end }}
           </details>
 
           {{ if $.packagingInfo }}
@@ -94,6 +98,10 @@
           </div>
           {{ end }}
 
+          {{ if $.marketplaceEnabled }}
+          <button type="button" class="cymbal-button-primary" data-reserve-listing="{{ $.listing.ID }}" disabled>Loading availability…</button>
+          <p class="campusloop-checkout-note">Reserve this item, then coordinate campus pickup.</p>
+          {{ else }}
           <form method="POST" action="{{ $.baseUrl }}/cart">
             <input type="hidden" name="product_id" value="{{$.product.Item.Id}}" />
             <div class="product-quantity-dropdown">
@@ -110,6 +118,7 @@
             <button type="submit" class="cymbal-button-primary">Add To Cart</button>
           </form>
           <p class="campusloop-checkout-note">Pay online, then coordinate pickup.</p>
+          {{ end }}
         </div>
       </div>
     </div>

@@ -1,0 +1,40 @@
+name: campusloop-marketplace
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: campusloop
+      POSTGRES_PASSWORD: campusloop-local-only
+      POSTGRES_DB: campusloop
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - marketplace-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U campusloop -d campusloop"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  marketplace:
+    build: .
+    environment:
+      DATABASE_URL: postgres://campusloop:campusloop-local-only@db:5432/campusloop?sslmode=disable
+      LISTEN_ADDR: 0.0.0.0:8090
+      FRONTEND_URL: http://127.0.0.1:8081/
+    ports:
+      - "127.0.0.1:8090:8090"
+    depends_on:
+      db:
+        condition: service_healthy
+  frontend:
+    build: ../frontend
+    environment:
+      MARKETPLACE_ONLY: "true"
+      MARKETPLACE_SERVICE_URL: http://marketplace:8090
+      PORT: "8080"
+    ports:
+      - "127.0.0.1:8081:8080"
+    depends_on:
+      - marketplace
+volumes:
+  marketplace-data:

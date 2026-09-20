@@ -614,17 +614,18 @@ func renderHTTPError(log logrus.FieldLogger, r *http.Request, w http.ResponseWri
 
 func injectCommonTemplateData(r *http.Request, payload map[string]interface{}) map[string]interface{} {
 	data := map[string]interface{}{
-		"session_id":        sessionID(r),
-		"request_id":        r.Context().Value(ctxKeyRequestID{}),
-		"user_currency":     currentCurrency(r),
-		"platform_css":      plat.css,
-		"platform_name":     plat.provider,
-		"is_cymbal_brand":   isCymbalBrand,
-		"assistant_enabled": assistantEnabled,
-		"deploymentDetails": deploymentDetailsMap,
-		"frontendMessage":   frontendMessage,
-		"currentYear":       time.Now().Year(),
-		"baseUrl":           baseUrl,
+		"session_id":         sessionID(r),
+		"request_id":         r.Context().Value(ctxKeyRequestID{}),
+		"user_currency":      currentCurrency(r),
+		"platform_css":       plat.css,
+		"platform_name":      plat.provider,
+		"is_cymbal_brand":    isCymbalBrand,
+		"assistant_enabled":  assistantEnabled,
+		"deploymentDetails":  deploymentDetailsMap,
+		"frontendMessage":    frontendMessage,
+		"currentYear":        time.Now().Year(),
+		"baseUrl":            baseUrl,
+		"marketplaceEnabled": os.Getenv("MARKETPLACE_SERVICE_URL") != "",
 	}
 
 	for k, v := range payload {

@@ -12,6 +12,7 @@
         Email
         <input type="email" name="email" placeholder="student@example.com" required>
       </label>
+      {{ if $.marketplaceEnabled }}<label>Password<input type="password" name="password" minlength="10" maxlength="72" autocomplete="current-password" required></label>{{ end }}
       <label>
         Display name
         <input type="text" name="name" placeholder="Alex" required>
@@ -25,6 +26,7 @@
   </section>
 </main>
 
+{{ if not $.marketplaceEnabled }}
 <script>
   (function () {
     const form = document.getElementById('campusloop-signin-page-form');
@@ -70,6 +72,7 @@
     setMode(mode);
   }());
 </script>
+{{ end }}
 
 {{ template "footer" . }}
 {{ end }}

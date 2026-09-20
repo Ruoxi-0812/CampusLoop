@@ -1,0 +1,55 @@
+{
+  "arch": "arm64",
+  "catalog_size": 10000,
+  "cpus": 11,
+  "go": "go1.25.0",
+  "gomaxprocs": 11,
+  "os": "darwin",
+  "results": [
+    {
+      "method": "GetProduct",
+      "concurrency": 20,
+      "repeat": 1,
+      "requests": 748943,
+      "errors": 0,
+      "seconds": 5.00389925,
+      "rps": 149671.87838564097,
+      "error_percent": 0,
+      "p50_ms": 0.109875,
+      "p95_ms": 0.305583,
+      "p99_ms": 0.463792
+    },
+    {
+      "method": "GetProduct",
+      "concurrency": 20,
+      "repeat": 2,
+      "requests": 761695,
+      "errors": 0,
+      "seconds": 5.002603667,
+      "rps": 152259.71328181974,
+      "error_percent": 0,
+      "p50_ms": 0.108916,
+      "p95_ms": 0.300458,
+      "p99_ms": 0.450292
+    },
+    {
+      "method": "GetProduct",
+      "concurrency": 20,
+      "repeat": 3,
+      "requests": 759848,
+      "errors": 0,
+      "seconds": 5.002946125,
+      "rps": 151880.1084431026,
+      "error_percent": 0,
+      "p50_ms": 0.109333,
+      "p95_ms": 0.300083,
+      "p99_ms": 0.448
+    }
+  ],
+  "seconds_per_case": 5,
+  "synthetic": true,
+  "timestamp": "2026-09-20T03:47:09Z",
+  "transport": "loopback TCP; one shared HTTP/2 connection; same-process client/server; no tracing interceptors",
+  "variant": "after",
+  "warmup_requests_per_case": 100
+}

@@ -1,0 +1,8 @@
+=== RUN   TestPerformanceBaseline
+{"message":"loading catalog from local products.json file...","severity":"info","timestamp":"2026-09-19T23:45:53.288553-04:00"}
+{"message":"successfully parsed product catalog json","severity":"info","timestamp":"2026-09-19T23:45:53.28943-04:00"}
+    performance_test.go:151: GetProduct concurrency=20 repeat=1 rps=162395 p95=0.257ms errors=0
+    performance_test.go:151: GetProduct concurrency=20 repeat=2 rps=163856 p95=0.252ms errors=0
+    performance_test.go:151: GetProduct concurrency=20 repeat=3 rps=164118 p95=0.252ms errors=0
+--- PASS: TestPerformanceBaseline (15.15s)
+PASS

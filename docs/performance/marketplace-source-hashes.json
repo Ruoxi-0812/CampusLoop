@@ -1,0 +1,8 @@
+{
+  "src/marketplaceservice/main.go": "0bcea8481d7bdc26f6d37e69258853375b3f39d5002fa9758dc952099b79296e",
+  "src/marketplaceservice/store.go": "51136f20077b17ecd0f4edc8ee0cf767232bc185f799b293d3d8420518a2d994",
+  "src/marketplaceservice/schema.sql": "4d60c3a6c8e817edf97589b7c25f7a86d9142ca1720f04738f1558c12d94f7a9",
+  "src/marketplaceservice/integration_test.go": "d68ec4052db52e081717cb8e2d558a7e8371a6572fa355df763b16761332cfc0",
+  "src/marketplaceservice/go.mod": "304491627079f94da673bc33d8f5a0b509b2c6796cb1ea6472a1c3b4c4bb4b30",
+  "src/marketplaceservice/go.sum": "6b5c5d42d54625d41fce1c9319d040da69753e1950e2f7fc5345483d6ddf0f0e"
+}

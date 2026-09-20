@@ -17,6 +17,8 @@ package main
 import (
 	"context"
 	"strings"
+	"sync"
+	"sync/atomic"
 	"time"
 
 	pb "github.com/GoogleCloudPlatform/microservices-demo/src/productcatalogservice/genproto"
@@ -27,7 +29,9 @@ import (
 
 type productCatalog struct {
 	pb.UnimplementedProductCatalogServiceServer
-	catalog pb.ListProductsResponse
+	catalog    pb.ListProductsResponse
+	snapshot   atomic.Pointer[catalogSnapshot]
+	snapshotMu sync.Mutex
 }
 
 func (p *productCatalog) Check(ctx context.Context, req *healthpb.HealthCheckRequest) (*healthpb.HealthCheckResponse, error) {
@@ -47,11 +51,10 @@ func (p *productCatalog) ListProducts(context.Context, *pb.Empty) (*pb.ListProdu
 func (p *productCatalog) GetProduct(ctx context.Context, req *pb.GetProductRequest) (*pb.Product, error) {
 	time.Sleep(extraLatency)
 
+	snapshot := p.catalogSnapshot()
 	var found *pb.Product
-	for i := 0; i < len(p.parseCatalog()); i++ {
-		if req.Id == p.parseCatalog()[i].Id {
-			found = p.parseCatalog()[i]
-		}
+	if snapshot != nil {
+		found = snapshot.byID[req.Id]
 	}
 
 	if found == nil {
@@ -74,13 +77,43 @@ func (p *productCatalog) SearchProducts(ctx context.Context, req *pb.SearchProdu
 	return &pb.SearchProductsResponse{Results: ps}, nil
 }
 
-func (p *productCatalog) parseCatalog() []*pb.Product {
-	if reloadCatalog || len(p.catalog.Products) == 0 {
-		err := loadCatalog(&p.catalog)
-		if err != nil {
-			return []*pb.Product{}
-		}
-	}
+// A published snapshot and its products are immutable. Reloads replace the
+// complete snapshot so concurrent readers never observe a partially built index.
+type catalogSnapshot struct {
+	products []*pb.Product
+	byID     map[string]*pb.Product
+}
 
-	return p.catalog.Products
+func (p *productCatalog) catalogSnapshot() *catalogSnapshot {
+	reload := reloadCatalog.Load()
+	if snapshot := p.snapshot.Load(); snapshot != nil && !reload {
+		return snapshot
+	}
+	p.snapshotMu.Lock()
+	defer p.snapshotMu.Unlock()
+	if snapshot := p.snapshot.Load(); snapshot != nil && !reload {
+		return snapshot
+	}
+	products := p.catalog.Products
+	if reload || len(products) == 0 {
+		var fresh pb.ListProductsResponse
+		if err := loadCatalog(&fresh); err != nil {
+			return nil
+		}
+		products = fresh.Products
+	}
+	snapshot := &catalogSnapshot{products: products, byID: make(map[string]*pb.Product, len(products))}
+	for _, product := range products {
+		// Preserve the original scan's last-match behavior for duplicate IDs.
+		snapshot.byID[product.Id] = product
+	}
+	p.snapshot.Store(snapshot)
+	return snapshot
+}
+
+func (p *productCatalog) parseCatalog() []*pb.Product {
+	if snapshot := p.catalogSnapshot(); snapshot != nil {
+		return snapshot.products
+	}
+	return []*pb.Product{}
 }

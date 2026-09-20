@@ -1,0 +1,17 @@
+{
+  "baseline_commit": "069c0c1bb3dd7b7adc2de005a323af1b218078df",
+  "sha256": {
+    "product_catalog.go": "689522bf742ab65e95e9a32e5e366ea3c374e572091e95c9268959d17d088399",
+    "server.go": "a161cd2eaa8d4ffd13ac9345d1c58e0fcc1f14ef4c316de659e708d6610f8134",
+    "performance_test.go": "8a7d979526f3b3f4ebd6cda9557f1e4baa081e0fe5dcda33be623636c0d7d68f",
+    "products.json": "1d15e14a04aacc92ccdcdec9a50070a3e58bdabb6f12715373fa5b0739dd8bc6"
+  },
+  "order": [
+    "before-9",
+    "after-9",
+    "after-1000",
+    "before-1000",
+    "before-10000",
+    "after-10000"
+  ]
+}

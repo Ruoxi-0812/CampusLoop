@@ -1,0 +1,13 @@
+{
+  "concurrency": 100,
+  "created": 10,
+  "duplicate_active_reservations": 0,
+  "elapsed_seconds": 1.078154834,
+  "expected_conflicts": 990,
+  "independent_connection_pools": true,
+  "instances": 2,
+  "requests": 1000,
+  "rounds": 10,
+  "test": "100 distinct authenticated buyers contend for one listing, repeated for 10 distinct listings",
+  "timestamp": "2026-09-20T04:15:23Z"
+}
