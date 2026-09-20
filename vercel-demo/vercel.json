@@ -1,12 +1,8 @@
 {
-  "cleanUrls": true,
   "routes": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/.*",
-      "dest": "/index.html"
+      "src": "/(.*)",
+      "dest": "https://campusloop-g9zj.onrender.com/$1"
     }
   ]
 }
