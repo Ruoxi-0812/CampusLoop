@@ -47,6 +47,9 @@
           </div>
 
           {{ if $.marketplaceEnabled }}
+          {{ if eq $.listing.SellerID "campusloop-demo-seller" }}
+          <p class="campusloop-sample-notice">Sample item. <a href="{{ $.baseUrl }}/signup">Create an account</a> to publish your own listing.</p>
+          {{ end }}
           <details class="campusloop-contact-panel"><summary>Contact seller</summary><p>{{ index $.listing.Metadata "contact" }}</p></details>
           {{ else }}
           <details class="campusloop-contact-panel">
