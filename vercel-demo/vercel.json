@@ -1,8 +1,11 @@
 {
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "https://campusloop-g9zj.onrender.com/$1"
-    }
+    {"src": "/(?:index.html)?", "dest": "/index.html"},
+    {"src": "/edge/(.*)", "dest": "/edge/$1"},
+    {"src": "/static/(.*)", "dest": "/static/$1"},
+    {"src": "/api/(.*)", "dest": "https://campusloop-g9zj.onrender.com/api/$1"},
+    {"src": "/_healthz", "dest": "https://campusloop-g9zj.onrender.com/_healthz"},
+    {"src": "/_pages/(.*)", "dest": "https://campusloop-g9zj.onrender.com/$1"},
+    {"src": "/.*", "dest": "/edge/gateway.html"}
   ]
 }

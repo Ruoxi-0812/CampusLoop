@@ -1,41 +1,24 @@
-# CampusLoop Vercel Demo
+# CampusLoop edge frontend
 
-This is a lightweight static demo of CampusLoop for portfolio and resume use.
-It mirrors the main marketplace flow without requiring the full GKE microservices stack to stay online.
+Vercel serves `index.html`, `/edge/*` and `/static/*` without contacting Render.
+The homepage initially displays nine explicitly labeled sample catalog items and
+replaces them with current PostgreSQL listings after `/api/marketplace/listings`
+responds. Search and category filtering work before and after that update.
 
-## What It Shows
+Other public page routes serve `edge/gateway.html`. The gateway retrieves the
+original Go-rendered page through `/_pages/*`, retaining the public URL, session,
+forms, and original backend JavaScript. Only verified application HTML is rendered.
+Render wake-up HTML is never displayed. Missing pages show an error, while temporary
+failures retry for up to about 90 seconds and then offer a manual retry.
 
-- Browse Northeastern student listings
-- Search and category filters
-- Product detail pages
-- Login/create account state with localStorage
-- Seller quick-message flow and messages page
-- Post item and my listings pages
-- Cart and campus pickup checkout mock flow
+API routes still proxy directly to the original backend. Only page/data GETs are
+retried. Mutations are not automatically replayed. There is no periodic keep-alive.
 
-## Local Preview
+Deploy this directory as the existing Vercel project's root (Other framework,
+no build command). Preview a deployment before promoting to production.
+When backend frontend assets change, copy the corresponding files from
+`src/frontend/static` into `static` before deploying the edge frontend.
 
-From this folder:
-
-```bash
-python3 -m http.server 5173
-```
-
-Then open:
-
-```text
-http://127.0.0.1:5173
-```
-
-## Vercel
-
-Deploy this folder as the Vercel project root. No build command is required.
-
-Suggested settings:
-
-- Framework Preset: Other
-- Build Command: leave empty
-- Output Directory: leave empty
-- Install Command: leave empty
-
-The production version can live on Vercel, while the full microservices version remains deployable on GKE.
+Validation: simulate a 503 HTML backend response, verify the homepage and filters
+remain available, verify a direct login URL displays the branded loading state,
+then restore the backend and verify live listings and the original login form.

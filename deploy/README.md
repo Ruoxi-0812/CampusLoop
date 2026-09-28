@@ -14,7 +14,7 @@ Run the existing Go frontend and marketplace API as two processes in one Render 
 
 ## Existing Vercel URL
 
-After the Render deployment is healthy, replace the static demo routing with a catch-all external rewrite to the verified Render HTTPS origin. Forward all routes, including `/static/*` and `/api/marketplace/*`; otherwise the old static files can shadow the updated Go pages. Save the old configuration and previous Vercel production deployment for rollback. Deploy a preview and verify it before promoting to production.
+Vercel serves the homepage and static assets immediately, then loads live listings asynchronously from Render. Other pages use a branded connection screen while retrieving the original Go-rendered page through `/_pages/*`. API requests are proxied through `/api/*`. See `vercel-demo/README.md` for routing and asset synchronization details. Deploy a preview and verify it before promoting to production.
 
 ## Zero-cost constraints
 
