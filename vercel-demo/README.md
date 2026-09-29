@@ -5,7 +5,7 @@ The homepage initially displays nine explicitly labeled sample catalog items and
 replaces them with current PostgreSQL listings after `/api/marketplace/listings`
 responds. Search and category filtering work before and after that update.
 
-Other public page routes serve `edge/gateway.html`. The gateway retrieves the
+Product routes first show sample or previously viewed item details. Other public page routes serve `edge/gateway.html` with the shared navigation, page title, and content placeholders, without a standalone connection screen. The gateway retrieves the
 original Go-rendered page through `/_pages/*`, retaining the public URL, session,
 forms, and original backend JavaScript. Only verified application HTML is rendered.
 Render wake-up HTML is never displayed. Missing pages show an error, while temporary
@@ -20,5 +20,5 @@ When backend frontend assets change, copy the corresponding files from
 `src/frontend/static` into `static` before deploying the edge frontend.
 
 Validation: simulate a 503 HTML backend response, verify the homepage and filters
-remain available, verify a direct login URL displays the branded loading state,
+remain available, verify a direct login or my-listings URL displays the shared navigation and page placeholders,
 then restore the backend and verify live listings and the original login form.
