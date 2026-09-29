@@ -37,6 +37,7 @@
     body.append(node('div', listing.title, 'hot-product-card-name'), footer); inner.append(link, body); outer.append(inner); return outer;
   }
   async function load() {
+    message.parentElement.hidden = false;
     retry.hidden = true; message.textContent = 'Connecting to the marketplace… You can browse sample items while we connect.';
     try {
       const result = await CampusLoopConnection('/api/marketplace/listings', (text, response) => {
@@ -44,7 +45,8 @@
         try { return Array.isArray(JSON.parse(text)); } catch (_) { return false; }
       });
       grid.replaceChildren(...JSON.parse(result.text).map(card)); filters();
-      message.textContent = 'Listings are up to date. Items marked “Sample item” are for demonstration.';
+      message.textContent = '';
+      message.parentElement.hidden = true;
     } catch (error) { message.textContent = error.message + ' Sample items are still available to browse.'; retry.hidden = false; }
   }
   // Account state uses the same session as the real backend pages, never demo localStorage.
