@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -183,20 +184,35 @@
         };
       }());
     </script>
-    <main role="main"><div class="h-product container"><div class="row">
-<div class="col-md-6"><img id="preview-image" class="product-image" alt="" hidden></div>
-<div class="product-info col-md-5"><div class="product-wrapper">
-<p class="campusloop-product-eyebrow">Northeastern student listing</p>
-<h2 id="preview-title">Item details</h2><p id="preview-price" class="product-price"></p><p id="preview-description"></p>
-<div class="campusloop-listing-details compact"><div><span>Status</span><strong data-listing-status>Checking availability…</strong></div><div><span>Pickup</span><strong id="product-pickup"></strong></div></div>
-<p id="preview-label"></p>
-<details class="campusloop-contact-panel"><summary>Contact seller</summary><p id="product-contact"></p></details>
-<details class="campusloop-pickup-panel"><summary>Pickup details</summary><p id="product-handoff"></p></details>
-<button type="button" class="cymbal-button-primary" data-reserve-listing disabled>Checking availability…</button>
-<p>Reserve this item, then coordinate campus pickup.</p>
-</div></div></div></div></main>
-<script src="/edge/product-preview.js"></script>
-<script src="/edge/product-data.js"></script>
+
+<main role="main" class="campusloop-signin-page">
+  <section class="campusloop-signin-card">
+    <p class="campusloop-eyebrow">CampusLoop account</p>
+    <div class="campusloop-auth-tabs" aria-label="Account mode">
+      <button type="button" data-auth-mode="login">Log in</button>
+      <button type="button" data-auth-mode="signup">Create account</button>
+    </div>
+    <form id="campusloop-signin-page-form" class="campusloop-signin-form">
+      <label>
+        Email
+        <input type="email" name="email" placeholder="student@example.com" required>
+      </label>
+      <label>Password<input type="password" name="password" minlength="10" maxlength="72" autocomplete="current-password" required></label>
+      <label>
+        Display name
+        <input type="text" name="name" placeholder="Alex" required>
+      </label>
+      <label class="campusloop-role-toggle">
+        <input type="checkbox" name="seller">
+        <span>I also want to sell items</span>
+      </label>
+      <button type="submit" class="campusloop-button campusloop-button-primary" data-auth-submit>Continue</button>
+    </form>
+  </section>
+</main>
+
+
+
 
 
 <footer class="py-5">
@@ -232,3 +248,4 @@
 </body>
 
 </html>
+

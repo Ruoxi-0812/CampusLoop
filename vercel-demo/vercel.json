@@ -21,16 +21,35 @@
       "dest": "https://campusloop-g9zj.onrender.com/_healthz"
     },
     {
-      "src": "/_pages/(.*)",
-      "dest": "https://campusloop-g9zj.onrender.com/$1"
-    },
-    {
       "src": "/product/[^/]+/?",
       "dest": "/edge/product.html"
     },
     {
+      "src": "/(login|signin|signup)/?",
+      "dest": "/edge/signin.html"
+    },
+    {
+      "src": "/(post-item|my-listings|messages)/?",
+      "dest": "/edge/$1.html"
+    },
+    {
+      "src": "/cart",
+      "status": 302,
+      "headers": {
+        "Location": "/my-listings"
+      }
+    },
+    {
+      "src": "/marketplace",
+      "status": 302,
+      "headers": {
+        "Location": "/"
+      }
+    },
+    {
       "src": "/.*",
-      "dest": "/edge/gateway.html"
+      "dest": "/edge/not-found.html",
+      "status": 404
     }
   ]
 }

@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -183,20 +184,100 @@
         };
       }());
     </script>
-    <main role="main"><div class="h-product container"><div class="row">
-<div class="col-md-6"><img id="preview-image" class="product-image" alt="" hidden></div>
-<div class="product-info col-md-5"><div class="product-wrapper">
-<p class="campusloop-product-eyebrow">Northeastern student listing</p>
-<h2 id="preview-title">Item details</h2><p id="preview-price" class="product-price"></p><p id="preview-description"></p>
-<div class="campusloop-listing-details compact"><div><span>Status</span><strong data-listing-status>Checking availability…</strong></div><div><span>Pickup</span><strong id="product-pickup"></strong></div></div>
-<p id="preview-label"></p>
-<details class="campusloop-contact-panel"><summary>Contact seller</summary><p id="product-contact"></p></details>
-<details class="campusloop-pickup-panel"><summary>Pickup details</summary><p id="product-handoff"></p></details>
-<button type="button" class="cymbal-button-primary" data-reserve-listing disabled>Checking availability…</button>
-<p>Reserve this item, then coordinate campus pickup.</p>
-</div></div></div></div></main>
-<script src="/edge/product-preview.js"></script>
-<script src="/edge/product-data.js"></script>
+
+<main role="main" class="campusloop-dashboard-page campusloop-post-page">
+  <section class="campusloop-dashboard-card">
+    <div class="campusloop-dashboard-header">
+      <div>
+        <p class="campusloop-eyebrow">Student seller</p>
+        <h1>Post an item</h1>
+      </div>
+      <a href="/my-listings" class="campusloop-button campusloop-button-secondary">My listings</a>
+    </div>
+
+    <form id="campusloop-post-form" class="campusloop-post-form">
+      <label class="campusloop-form-wide">
+        Item photo
+        <input name="image" type="file" accept="image/*">
+      </label>
+      <label>
+        Title
+        <input name="name" type="text" placeholder="Desk lamp, calculus textbook, mini fridge..." required>
+      </label>
+      <label>
+        Category
+        <select name="category" required>
+          <option value="textbooks">Textbooks</option>
+          <option value="furniture">Furniture</option>
+          <option value="dorm">Dorm</option>
+          <option value="electronics">Electronics</option>
+          <option value="clothing">Clothing</option>
+          <option value="transportation">Transportation</option>
+          <option value="essentials">Essentials</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+      <label>
+        Price
+        <input name="price" type="number" min="0" step="0.01" placeholder="25" required>
+      </label>
+      <label>
+        Status
+        <select name="status" required>
+          <option value="Available">Available</option>
+
+        </select>
+      </label>
+      <label>
+        City
+        <input name="city" type="text" value="Boston" required>
+      </label>
+      <label>
+        Campus
+        <select name="campus" required>
+          <option value="Northeastern University - Boston">Northeastern University - Boston</option>
+          <option value="Northeastern University - Oakland">Northeastern University - Oakland</option>
+          <option value="Northeastern University - Seattle">Northeastern University - Seattle</option>
+          <option value="Northeastern University - Vancouver">Northeastern University - Vancouver</option>
+        </select>
+      </label>
+      <label>
+        Dorm area or neighborhood
+        <input name="dorm" type="text" placeholder="LightView, IV, West Village, Mission Hill..." required>
+      </label>
+      <label>
+        Recommended pickup spot
+        <select name="pickup" required>
+          <option value="Snell Library lobby">Snell Library lobby</option>
+          <option value="Curry Student Center entrance">Curry Student Center entrance</option>
+          <option value="ISEC lobby">ISEC lobby</option>
+          <option value="Marino Recreation Center entrance">Marino Recreation Center entrance</option>
+          <option value="Ruggles Station entrance">Ruggles Station entrance</option>
+          <option value="LightView lobby">LightView lobby</option>
+        </select>
+      </label>
+      <label class="campusloop-form-wide">
+        Pickup address or notes
+        <input name="address" type="text" placeholder="Meet inside lobby; exact dorm room shared after purchase" required>
+      </label>
+      <label>
+        Contact method
+        <input name="contact" type="text" placeholder="Email, phone, Instagram..." required>
+      </label>
+      <label>
+        Available handoff time
+        <input name="handoff" type="text" placeholder="Weekdays after 5pm, Sunday afternoon..." required>
+      </label>
+      <label class="campusloop-form-wide">
+        Description
+        <input name="description" type="text" placeholder="Condition, included accessories, original price, notes..." required>
+      </label>
+      <button type="submit" class="campusloop-button campusloop-button-primary">Save listing</button>
+    </form>
+  </section>
+</main>
+
+
 
 
 <footer class="py-5">
@@ -232,3 +313,4 @@
 </body>
 
 </html>
+

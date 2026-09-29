@@ -1,24 +1,20 @@
-# CampusLoop edge frontend
+# CampusLoop static frontend
 
-Vercel serves `index.html`, `/edge/*` and `/static/*` without contacting Render.
-The homepage initially displays nine explicitly labeled sample catalog items and
-replaces them with current PostgreSQL listings after `/api/marketplace/listings`
-responds. Search and category filtering work before and after that update.
+Vercel serves complete pages immediately. Only JSON data is loaded asynchronously
+from the Go API; navigation never downloads and replaces a second HTML document.
+The existing Go templates generate the account, publishing and dashboard pages:
 
-Product routes first show sample or previously viewed item details. Other public page routes serve `edge/gateway.html` with the shared navigation, page title, and content placeholders, without a standalone connection screen. The gateway retrieves the
-original Go-rendered page through `/_pages/*`, retaining the public URL, session,
-forms, and original backend JavaScript. Only verified application HTML is rendered.
-Render wake-up HTML is never displayed. Missing pages show an error, while temporary
-failures retry for up to about 90 seconds and then offer a manual retry.
+```sh
+go run scripts/edge-export/main.go
+cp src/frontend/static/js/marketplace.js vercel-demo/static/js/marketplace.js
+```
 
-API routes still proxy directly to the original backend. Only page/data GETs are
-retried. Mutations are not automatically replayed. There is no periodic keep-alive.
+Run from the repository root after changing templates. Product layout lives in
+`scripts/edge-export/product-body.html`; product information is updated in place.
+Samples or previously viewed details can appear before live data arrives; reservation
+availability always comes from the API. Homepage sample cards are replaced by live listings.
 
-Deploy this directory as the existing Vercel project's root (Other framework,
-no build command). Preview a deployment before promoting to production.
-When backend frontend assets change, copy the corresponding files from
-`src/frontend/static` into `static` before deploying the edge frontend.
-
-Validation: simulate a 503 HTML backend response, verify the homepage and filters
-remain available, verify a direct login or my-listings URL displays the shared navigation and page placeholders,
-then restore the backend and verify live listings and the original login form.
+GET requests retry during backend startup, preserving authorization headers.
+Mutations wait for a read-only health check and are sent once, without automatic
+replay. No periodic keep-alive is configured. API authentication and PostgreSQL
+remain on the existing backend. Deploy this directory, preview, then promote.

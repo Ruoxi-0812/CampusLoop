@@ -9,6 +9,18 @@
     const token = sessionStorage.getItem(tokenKey);
     if (token) headers.Authorization = 'Bearer ' + token;
     if (options.key) headers['Idempotency-Key'] = options.key;
+    if (window.CampusLoopBackendConfig.edge && window.CampusLoopConnection) {
+      if (!options.method || options.method === 'GET') {
+        const result = await CampusLoopConnection(base + '/api/marketplace' + path, (text, response) => {
+          try { JSON.parse(text); return (response.headers.get('content-type') || '').includes('application/json'); } catch (_) { return false; }
+        }, true, headers);
+        const data = JSON.parse(result.text);
+        if (!result.response.ok) { const error = new Error(data.error || 'Could not complete request'); error.status = result.response.status; throw error; }
+        return data;
+      }
+      // Wake the service with a read; never replay submissions or reservations.
+      await CampusLoopConnection(base + '/_healthz', text => text.trim() === 'ok');
+    }
     const response = await fetch(base + '/api/marketplace' + path, { method: options.method || 'GET', headers, body: options.body === undefined ? undefined : JSON.stringify(options.body) });
     const data = await response.json();
     if (!response.ok) { const error = new Error(data.error || 'Could not complete request'); error.status = response.status; throw error; }
@@ -29,9 +41,11 @@
   function reservationKey(id) { return 'campusloop-reserve:' + getUser().id + ':' + id; }
   async function loadDashboard() {
     if (!requireUser()) return;
+    document.querySelector('[data-empty-listings]').textContent = 'Loading your listings…';
     const [listings, reservations] = await Promise.all([api('/listings'), api('/reservations')]);
     const user = getUser();
     const target = document.querySelector('[data-my-listings-page-list]'); target.replaceChildren();
+    document.querySelector('[data-empty-listings]').textContent = 'No listings yet.';
     const owned = listings.filter(l => l.seller_id === user.id);
     document.querySelector('[data-empty-listings]').hidden = owned.length !== 0;
     for (const l of owned) { const row = element('div', '', 'campusloop-my-listing'); const details = element('div', ''); const link = element('a', l.title); link.href = base + '/product/' + encodeURIComponent(l.id); details.append(link, element('span', l.status + ' · ' + l.pickup), element('small', [l.metadata.campus, l.metadata.handoff].filter(Boolean).join(' · '))); row.append(details, element('b', '$' + (l.price_cents / 100).toFixed(2))); target.append(row); }
@@ -49,6 +63,7 @@
     const button = document.querySelector('[data-reserve-listing]'); if (!button) return;
     const id = button.dataset.reserveListing;
     const listing = await api('/listings/' + encodeURIComponent(id));
+    if (window.CampusLoopRenderProduct) window.CampusLoopRenderProduct(listing);
     const status = document.querySelector('[data-listing-status]'); status.textContent = listing.status;
     const user = getUser();
     let active;
@@ -68,7 +83,7 @@
   }
   document.addEventListener('DOMContentLoaded', async () => {
     try {
-      if (sessionStorage.getItem(tokenKey)) { try { const me = await api('/me'); sessionStorage.setItem(userKey, JSON.stringify({id:me.user_id,email:me.email,name:me.name||me.email,role:'seller'})); } catch (e) { if (e.status !== 401) throw e; sessionStorage.removeItem(tokenKey); sessionStorage.removeItem(userKey); } }
+      if (!window.CampusLoopBackendConfig.edge && sessionStorage.getItem(tokenKey)) { try { const me = await api('/me'); sessionStorage.setItem(userKey, JSON.stringify({id:me.user_id,email:me.email,name:me.name||me.email,role:'seller'})); } catch (e) { if (e.status !== 401) throw e; sessionStorage.removeItem(tokenKey); sessionStorage.removeItem(userKey); } }
       if (window.CampusLoopAuth) window.CampusLoopAuth.update();
       const auth = document.getElementById('campusloop-signin-page-form');
       if (auth) {

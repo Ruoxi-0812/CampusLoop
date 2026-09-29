@@ -1,13 +1,13 @@
 /* Retry only reads, never automatically replay a mutation. No background keep-alive. */
-window.CampusLoopConnection = async function (path, accept) {
+window.CampusLoopConnection = async function (path, accept, acceptHttpErrors = false, headers = {}) {
   const deadline = Date.now() + 90000;
   while (Date.now() < deadline) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 12000);
     try {
-      const response = await fetch(path, {signal: controller.signal, cache: 'no-store'});
+      const response = await fetch(path, {signal: controller.signal, cache: 'no-store', headers});
       const text = await response.text();
-      if (response.ok && accept(text, response)) return {text, response};
+      if ((response.ok || acceptHttpErrors) && accept(text, response)) return {text, response};
       if (response.status === 404) throw Object.assign(new Error('This item or page could not be found.'), {permanent: true});
     } catch (error) {
       if (error.permanent) throw error;

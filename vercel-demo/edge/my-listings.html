@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +25,7 @@
 
     <link rel='shortcut icon' type='image/png' href='/static/icons/CampusLoop_UserLogo.png?v=campusloop-favicon-balanced-white' />
 
-<link rel="stylesheet" href="/edge/connection.css"></head>
+</head>
 
 <body>
     <header>
@@ -84,8 +83,6 @@
 
 
 
-
-
                 </div>
 
                 <div class="campusloop-topbar-account">
@@ -109,7 +106,7 @@
 
 
                     <a href="/cart" class="cart-link">
-                        <img src="/static/icons/Hipster_CartIcon.svg" alt="Cart icon" class="logo" title="Cart" />
+                        <img src="/static/icons/Hipster_CartIcon.svg" alt="My listings" class="logo" title="My listings" />
 
                     </a>
                 </div>
@@ -118,14 +115,98 @@
 
     </header>
 
+    <script>window.CampusLoopBackendConfig = {edge: true, baseUrl: ''};</script>
+    <script src="/edge/connection.js"></script><script src="/static/js/marketplace.js"></script>
 
-<main class="container campusloop-page-shell" role="main">
-<p class="campusloop-product-eyebrow">CampusLoop</p><h1 id="page-title">Campus marketplace</h1>
-<p id="page-description">Buy, sell, and pick up around campus.</p>
-<div id="page-placeholder" aria-busy="true" aria-label="Loading page content"><div class="page-placeholder-line"></div><div class="page-placeholder-line"></div><div class="page-placeholder-line"></div></div>
-<p id="connection-message" role="status" aria-live="polite"></p><button id="connection-retry" class="campusloop-button campusloop-button-secondary" hidden>Try again</button>
-<noscript><p>Please enable JavaScript to access your account and listings.</p></noscript>
-</main><footer class="py-5">
+    <script>
+      (function () {
+        function getUser() {
+          if (window.CampusLoopBackend) return window.CampusLoopBackend.getUser();
+          try {
+            return JSON.parse(window.localStorage.getItem('campusloop-user')) || null;
+          } catch (error) {
+            return null;
+          }
+        }
+
+        function initials(name, email) {
+          const value = String(name || email || 'Student').trim();
+          const parts = value.split(/\s+/).filter(Boolean);
+          if (parts.length > 1) {
+            return (parts[0][0] + parts[1][0]).toUpperCase();
+          }
+          return value.slice(0, 2).toUpperCase();
+        }
+
+        function updateAuthUI() {
+          const user = getUser();
+          const signIn = document.querySelector('[data-auth-signin]');
+          const userMenu = document.querySelector('[data-auth-user-menu]');
+          const avatar = document.querySelector('[data-auth-avatar]');
+          const name = document.querySelector('[data-auth-name]');
+          const role = document.querySelector('[data-auth-role]');
+
+          if (signIn) {
+            signIn.hidden = Boolean(user);
+          }
+          if (userMenu) {
+            userMenu.hidden = !user;
+          }
+          if (user && avatar) {
+            avatar.textContent = initials(user.name, user.email);
+          }
+          if (user && name) {
+            name.textContent = user.name || user.email || 'Student';
+          }
+          if (user && role) {
+            role.textContent = user.role === 'seller' ? 'Seller mode' : 'Buyer mode';
+          }
+          document.documentElement.classList.toggle('campusloop-signed-in', Boolean(user));
+        }
+
+        document.addEventListener('click', function (event) {
+          const logout = event.target.closest('[data-auth-logout]');
+          if (logout) {
+            event.preventDefault();
+            if (window.CampusLoopBackend) { window.CampusLoopBackend.logout(); return; }
+            window.localStorage.removeItem('campusloop-user');
+            updateAuthUI();
+            if (window.location.pathname !== '/') {
+              window.location.href = '/';
+            }
+          }
+        });
+
+        updateAuthUI();
+        window.CampusLoopAuth = {
+          getUser: getUser,
+          update: updateAuthUI
+        };
+      }());
+    </script>
+
+<main role="main" class="campusloop-dashboard-page">
+  <section class="campusloop-dashboard-card">
+    <div class="campusloop-dashboard-header">
+      <div>
+        <p class="campusloop-eyebrow">Seller tools</p>
+        <h1>My listings</h1>
+      </div>
+      <a href="/post-item" class="campusloop-button campusloop-button-primary">Post item</a>
+    </div>
+    <div class="campusloop-dashboard-list" data-my-listings-page-list></div>
+    <p class="campusloop-empty-listings" data-empty-listings>No listings yet.</p>
+
+    <h2>Your reservations &amp; handoffs</h2>
+    <div class="campusloop-dashboard-list" data-reservation-list></div>
+
+  </section>
+</main>
+
+
+
+
+<footer class="py-5">
     <div class="footer-top">
         <div class="container campusloop-footer-content">
             <div class="campusloop-footer-main">
@@ -135,13 +216,27 @@
                 </div>
                 <nav class="campusloop-footer-nav" aria-label="Footer navigation">
                     <a href="/#recent-listings">Browse</a>
-                    <a href="/cart">Cart</a>
+                    <a href="/cart">My listings</a>
                 </nav>
             </div>
             <div class="campusloop-footer-bottom">
                 <span>Student marketplace for campus reuse.</span>
+                <details class="campusloop-system-details">
+                    <summary>System details</summary>
+                    <div>
 
+
+
+                    Deployment details are still loading.
+                    Try refreshing this page.
+
+                    </div>
+                </details>
             </div>
         </div>
     </div>
-</footer><script src="/edge/page-shell.js"></script><script src="/edge/connection.js"></script><script src="/edge/gateway.js"></script></body></html>
+</footer>
+</body>
+
+</html>
+
