@@ -37,17 +37,19 @@
     body.append(node('div', listing.title, 'hot-product-card-name'), footer); inner.append(link, body); outer.append(inner); return outer;
   }
   async function load() {
-    message.parentElement.hidden = false;
+    message.parentElement.hidden = true;
     retry.hidden = true; message.textContent = 'Connecting to the marketplace… You can browse sample items while we connect.';
     try {
       const result = await CampusLoopConnection('/api/marketplace/listings', (text, response) => {
         if (!(response.headers.get('content-type') || '').includes('application/json')) return false;
         try { return Array.isArray(JSON.parse(text)); } catch (_) { return false; }
       });
-      grid.replaceChildren(...JSON.parse(result.text).map(card)); filters();
+      const listings = JSON.parse(result.text);
+      try { sessionStorage.setItem('campusloop-listing-preview', JSON.stringify(listings)); } catch (_) {}
+      grid.replaceChildren(...listings.map(card)); filters();
       message.textContent = '';
       message.parentElement.hidden = true;
-    } catch (error) { message.textContent = error.message + ' Sample items are still available to browse.'; retry.hidden = false; }
+    } catch (error) { message.parentElement.hidden = false; message.textContent = error.message + ' Sample items are still available to browse.'; retry.hidden = false; }
   }
   // Account state uses the same session as the real backend pages, never demo localStorage.
   try {

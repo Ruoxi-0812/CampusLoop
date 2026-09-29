@@ -9,7 +9,7 @@
   const message = document.getElementById('connection-message');
   async function load() {
     retry.hidden = true;
-    message.textContent = 'This may take about a minute. Your page will open automatically when ready.';
+    message.textContent = document.getElementById('preview-title') ? '' : 'This may take about a minute. Your page will open automatically when ready.';
     try {
       const result = await CampusLoopConnection('/_pages' + location.pathname + location.search, (text, response) => (response.headers.get('content-type') || '').includes('text/html') && text.includes('window.CampusLoopBackendConfig'));
       // This is our own server-rendered HTML, including its original scripts and escaped data.
