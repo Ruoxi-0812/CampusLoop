@@ -2,7 +2,7 @@
 
 ![CI](https://github.com/Ruoxi-0812/CampusLoop/actions/workflows/ci.yml/badge.svg)
 
-CampusLoop is a student-to-student second-hand marketplace for Northeastern University students. Students can browse used textbooks, dorm essentials, furniture, electronics, clothing, and daily supplies, then coordinate campus pickup with a seller.
+CampusLoop is a full-stack campus resale marketplace built for Northeastern students. It supports product discovery, listings, reservations, seller-confirmed handoffs, and account workflows through a containerized microservices architecture.
 
 Application: [https://neuloop.vercel.app](https://neuloop.vercel.app)
 
@@ -10,64 +10,69 @@ Application: [https://neuloop.vercel.app](https://neuloop.vercel.app)
 
 CampusLoop is organized around a Go frontend and a set of commerce microservices for product catalog, cart, checkout, recommendations, ads, currency conversion, payment, shipping, and email confirmation. The current Vercel deployment provides a static resume-ready demo of the marketplace UI, while the full project keeps the Kubernetes microservices structure for local or cloud deployment.
 
+## Architecture
+
+CampusLoop uses a microservices architecture centered around a Go web frontend and independently deployable commerce services. Core marketplace flows—product discovery, cart management, and checkout—communicate with supporting services for recommendations, payments, shipping, currency conversion, and email confirmation.
+
 ```mermaid
 flowchart TB
-  User((User))
-  Load["loadgenerator"]
-  Frontend["frontend"]
-  Checkout["checkout"]
-  Ad["ad"]
-  Recommendation["recommendation"]
-  Catalog["productcatalog"]
-  Cart["cart"]
-  Redis[("Redis cache")]
-  Shipping["shipping"]
-  Currency["currency"]
-  Payment["payment"]
-  Email["email"]
+    User((User))
 
-  User -->|HTTP| Frontend
-  Load -->|HTTP| Frontend
+    Frontend["Frontend"]
 
-  Frontend --> Ad
-  Frontend --> Recommendation
-  Frontend --> Catalog
-  Frontend --> Cart
-  Frontend --> Checkout
-  Frontend --> Shipping
-  Frontend --> Currency
+    Catalog["Product Catalog"]
+    Cart["Cart"]
+    Checkout["Checkout"]
 
-  Recommendation --> Catalog
-  Cart --> Redis
+    Recommendation["Recommendation"]
+    Ad["Ad"]
+    Payment["Payment"]
+    Shipping["Shipping"]
+    Currency["Currency"]
+    Email["Email"]
 
-  Checkout --> Catalog
-  Checkout --> Cart
-  Checkout --> Shipping
-  Checkout --> Currency
-  Checkout --> Payment
-  Checkout --> Email
+    Redis[("Redis Cache")]
 
-  classDef frontend fill:#eadfe4,stroke:#b9b9b9,color:#111,font-weight:bold;
-  classDef service fill:#ffffff,stroke:#b9b9b9,color:#444;
-  classDef datastore fill:#ffffff,stroke:#999,color:#444;
-  class Frontend frontend;
-  class Load,Checkout,Ad,Recommendation,Catalog,Cart,Shipping,Currency,Payment,Email service;
-  class Redis datastore;
-```
+    User -->|HTTP| Frontend
 
-| Service | Technology | Description |
+    Frontend --> Catalog
+    Frontend --> Cart
+    Frontend --> Checkout
+
+    Recommendation --> Catalog
+    Ad --> Catalog
+
+    Checkout --> Catalog
+    Checkout --> Cart
+    Checkout --> Payment
+    Checkout --> Shipping
+    Checkout --> Currency
+    Checkout --> Email
+
+    Cart --> Redis
+
+    classDef entry fill:#f3f0ff,stroke:#7c6ee6,stroke-width:2px,color:#222;
+    classDef core fill:#f7f7f7,stroke:#777,stroke-width:1.5px,color:#222;
+    classDef support fill:#ffffff,stroke:#aaa,color:#444;
+    classDef datastore fill:#ffffff,stroke:#777,stroke-width:1.5px,color:#333;
+
+    class Frontend entry;
+    class Catalog,Cart,Checkout core;
+    class Recommendation,Ad,Payment,Shipping,Currency,Email support;
+    class Redis datastore;
+
+| Service | Technology | Responsibility |
 | --- | --- | --- |
-| frontend | Go templates, HTML, CSS, JavaScript | CampusLoop web UI for browsing, product details, account state, messages, listings, and post-item pages. |
-| productcatalogservice | Go | Provides campus resale listings from the product catalog. |
-| cartservice | C# + Redis | Stores and retrieves cart data. |
-| checkoutservice | Go | Coordinates checkout, payment, shipping, and email confirmation. |
-| currencyservice | Node.js | Converts listing prices between supported currencies. |
-| paymentservice | Node.js | Provides mock payment behavior for checkout. |
-| shippingservice | Go | Provides mock shipping quotes and tracking behavior. |
-| emailservice | Python | Sends mock order confirmation emails. |
-| recommendationservice | Python | Recommends related marketplace items. |
-| adservice | Java | Provides promotional messages for the storefront. |
-| deployment | Vercel + Kubernetes | Vercel hosts the static demo; Kubernetes manifests run the full microservices version. |
+| frontend | Go, HTML, CSS, JavaScript | Serves the marketplace UI and user-facing flows. |
+| productcatalogservice | Go | Manages and serves marketplace product listings. |
+| cartservice | C# + Redis | Manages cart state with Redis-backed storage. |
+| checkoutservice | Go | Orchestrates checkout across cart, payment, shipping, and email services. |
+| recommendationservice | Python | Generates related-item recommendations. |
+| currencyservice | Node.js | Handles currency conversion. |
+| paymentservice | Node.js | Processes mock payments for checkout. |
+| shippingservice | Go | Provides mock shipping quotes and tracking. |
+| emailservice | Python | Generates mock order confirmation emails. |
+| adservice | Java | Serves promotional content. |
 
 ## Screenshots
 
@@ -117,25 +122,14 @@ kubectl port-forward deployment/frontend 8081:8080
 
 ## Deployment
 
-- Static demo: Vercel
-- Production URL: [https://neuloop.vercel.app](https://neuloop.vercel.app)
-- Vercel root directory: `vercel-demo`
-- Full service runtime: Kubernetes
-- Local cluster: Kind
-- Service manifests: `release/kubernetes-manifests.yaml`
-- Container workflow: Docker and Skaffold
-
-The Vercel version is intentionally static so the project can be viewed reliably from a resume link without keeping a paid Kubernetes cluster running.
-
-## Documentation
-
-- [Static Vercel demo](vercel-demo)
-- [Frontend templates](src/frontend/templates)
-- [Frontend styles](src/frontend/static/styles/styles.css)
-- [Product catalog](src/productcatalogservice/products.json)
-- [Protocol Buffers API](protos/demo.proto)
-- [Kubernetes manifests](release/kubernetes-manifests.yaml)
+- Production: [https://neuloop.vercel.app](https://neuloop.vercel.app)
+- Web hosting: Vercel
+- Full microservices runtime: Kubernetes
+- Local Kubernetes environment: Kind
+- Containerization and deployment: Docker, Kubernetes, and Skaffold
 
 ## Attribution
 
-This project adapts the open-source [GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo) architecture and reworks it into a Northeastern-focused campus marketplace experience. The original project is licensed under the Apache License 2.0.
+CampusLoop is built on top of the open-source [GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo), licensed under Apache License 2.0.
+
+The upstream project provides the baseline polyglot microservices architecture. CampusLoop adapts that foundation into a Northeastern-focused resale marketplace, with redesigned marketplace flows and UI, campus-specific product data, reservation behavior, catalog optimizations, deployment configuration, and project-specific testing and benchmarking.
