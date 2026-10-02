@@ -8,10 +8,6 @@ Application: [https://neuloop.vercel.app](https://neuloop.vercel.app)
 
 ## Architecture
 
-CampusLoop is organized around a Go frontend and a set of commerce microservices for product catalog, cart, checkout, recommendations, ads, currency conversion, payment, shipping, and email confirmation. The current Vercel deployment provides a static resume-ready demo of the marketplace UI, while the full project keeps the Kubernetes microservices structure for local or cloud deployment.
-
-## Architecture
-
 CampusLoop uses a microservices architecture centered around a Go web frontend and independently deployable commerce services. Core marketplace flows—product discovery, cart management, and checkout—communicate with supporting services for recommendations, payments, shipping, currency conversion, and email confirmation.
 
 ```mermaid
@@ -60,6 +56,7 @@ flowchart TB
     class Catalog,Cart,Checkout core;
     class Recommendation,Ad,Payment,Shipping,Currency,Email support;
     class Redis datastore;
+```
 
 | Service | Technology | Responsibility |
 | --- | --- | --- |
@@ -122,7 +119,6 @@ kubectl port-forward deployment/frontend 8081:8080
 
 ## Deployment
 
-- Production: [https://neuloop.vercel.app](https://neuloop.vercel.app)
 - Web hosting: Vercel
 - Full microservices runtime: Kubernetes
 - Local Kubernetes environment: Kind
@@ -131,5 +127,3 @@ kubectl port-forward deployment/frontend 8081:8080
 ## Attribution
 
 CampusLoop is built on top of the open-source [GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo), licensed under Apache License 2.0.
-
-The upstream project provides the baseline polyglot microservices architecture. CampusLoop adapts that foundation into a Northeastern-focused resale marketplace, with redesigned marketplace flows and UI, campus-specific product data, reservation behavior, catalog optimizations, deployment configuration, and project-specific testing and benchmarking.
