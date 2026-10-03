@@ -75,7 +75,7 @@ flowchart TB
 
 | Marketplace Home | Product Detail |
 | --- | --- |
-| [Open homepage](https://neuloop.vercel.app) | [Open product page](https://neuloop.vercel.app/product/66VCHSJNUP) |
+| ![Home Page](docs/screenshots/home.png) | ![Product Page](docs/screenshots/product.png) |
 
 ## Quickstart
 
