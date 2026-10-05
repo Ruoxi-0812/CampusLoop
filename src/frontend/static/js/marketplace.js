@@ -28,7 +28,7 @@
   }
   function show(message) {
     let status = document.getElementById('campusloop-workflow-status');
-    if (!status) { status = document.createElement('p'); status.id = 'campusloop-workflow-status'; status.className = 'campusloop-workflow-status'; status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite'); const main = document.querySelector('main'); main.prepend(status); }
+    if (!status) { status = document.createElement('p'); status.id = 'campusloop-workflow-status'; status.className = 'campusloop-workflow-status'; status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite'); const auth = document.getElementById('campusloop-signin-page-form'); if (auth) { auth.append(status); status.classList.add('campusloop-auth-error'); } else { document.querySelector('main').prepend(status); } }
     status.textContent = message;
     status.hidden = !message;
   }
@@ -89,7 +89,7 @@
       if (auth) {
         const buttons = Array.from(document.querySelectorAll('[data-auth-mode]')); const submit = auth.querySelector('[data-auth-submit]');
         let mode = location.pathname.endsWith('/signup') ? 'signup' : 'login';
-        function switchMode(value) { mode = value; buttons.forEach(b => { b.classList.toggle('active', b.dataset.authMode === mode); b.setAttribute('aria-pressed', String(b.dataset.authMode === mode)); }); submit.textContent = mode === 'signup' ? 'Create account' : 'Log in'; const name = auth.elements.name; name.required = mode === 'signup'; name.closest('label').hidden = mode !== 'signup'; auth.elements.password.autocomplete = mode === 'signup' ? 'new-password' : 'current-password'; }
+        function switchMode(value) { show(''); mode = value; buttons.forEach(b => { b.classList.toggle('active', b.dataset.authMode === mode); b.setAttribute('aria-pressed', String(b.dataset.authMode === mode)); }); submit.textContent = mode === 'signup' ? 'Create account' : 'Log in'; const name = auth.elements.name; name.required = mode === 'signup'; name.closest('label').hidden = mode !== 'signup'; auth.elements.password.autocomplete = mode === 'signup' ? 'new-password' : 'current-password'; }
         buttons.forEach(b => b.onclick = () => switchMode(b.dataset.authMode)); switchMode(mode);
         auth.onsubmit = async e => { e.preventDefault(); submit.disabled = true; show(''); try { const form = new FormData(auth); const result = await api('/auth/' + (mode === 'signup' ? 'register' : 'login'), {method:'POST',body:{email:String(form.get('email')),password:String(form.get('password')),name:String(form.get('name')||'')}}); sessionStorage.setItem(tokenKey,result.token); sessionStorage.setItem(userKey,JSON.stringify({id:result.user_id,email:result.email,name:result.name||result.email,role:'seller'})); location.assign(safeNext(new URLSearchParams(location.search).get('next'))); } catch (e) { show(e.message); } finally { submit.disabled = false; } };
       }
