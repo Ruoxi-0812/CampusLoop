@@ -73,9 +73,16 @@ flowchart TB
 
 ## Screenshots
 
-| Marketplace Home | Product Detail |
-| --- | --- |
-| ![Home Page](docs/screenshots/home.png) | ![Product Page](docs/screenshots/product.png) |
+<table>
+  <tr>
+    <th width="50%">Marketplace Home</th>
+    <th width="50%">Product Detail</th>
+  </tr>
+  <tr>
+    <td width="50%" valign="top"><img src="docs/screenshots/home.png" alt="Home Page" width="100%"></td>
+    <td width="50%" valign="top"><img src="docs/screenshots/product.png" alt="Product Page" width="100%"></td>
+  </tr>
+</table>
 
 ## Quickstart
 
