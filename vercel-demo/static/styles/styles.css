@@ -2201,3 +2201,5 @@ the rules below could be extracted.
 .campusloop-dashboard-card > h2 { margin-top: 28px; font-size: 24px; font-weight: 700; }
 
 .campusloop-signin-form .campusloop-auth-error { margin: 0; padding: 0; background: transparent; border-radius: 0; color: #b42318; font-size: 14px; line-height: 1.5; width: 100%; }
+
+.campusloop-inbox{display:grid;grid-template-columns:minmax(170px,1fr) minmax(0,2fr);gap:24px}.campusloop-conversation{display:block;width:100%;padding:14px;margin-bottom:8px;text-align:left;border:1px solid #e4dced;border-radius:10px;background:white;color:#392052}.campusloop-conversation[aria-pressed="true"]{background:#f1eafa}#chat-messages,.campusloop-demo-chat{max-height:400px;overflow:auto;overflow-wrap:anywhere}#chat-messages>div{padding:12px;margin:10px 0;border-radius:12px;background:#f3f1f5}#chat-messages .campusloop-message-own{background:#ede4fa;margin-left:24px}#chat-messages p{white-space:pre-wrap;margin:6px 0}#chat-form{display:grid;gap:10px}#chat-body{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px}#chat-form button{justify-self:end}@media(max-width:700px){.campusloop-inbox{grid-template-columns:1fr}}

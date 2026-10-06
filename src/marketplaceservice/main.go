@@ -154,6 +154,7 @@ func validText(s string, min, max int) bool {
 }
 func (a *app) routes() http.Handler {
 	mux := http.NewServeMux()
+	a.chatRoutes(mux)
 	mux.HandleFunc("GET /marketplace", func(w http.ResponseWriter, r *http.Request) {
 		target := os.Getenv("FRONTEND_URL")
 		if target == "" {

@@ -186,57 +186,17 @@
     </script>
 
 <main role="main" class="campusloop-dashboard-page">
-  <section class="campusloop-dashboard-card">
-    <div class="campusloop-dashboard-header">
-      <div>
-        <p class="campusloop-eyebrow">Messages</p>
-        <h1>Seller chats</h1>
-      </div>
-      <a href="/" class="campusloop-button campusloop-button-secondary">Browse items</a>
-    </div>
-    <div class="campusloop-messages-list" data-messages-page-list></div>
-    <p class="campusloop-empty-listings" data-empty-messages>No messages yet.</p>
-  </section>
-</main>
-
-<script>
-  (function () {
-    if (!window.CampusLoopAuth || !window.CampusLoopAuth.getUser()) {
-      window.location.href = '/login?next=/messages';
-      return;
-    }
-    const list = document.querySelector('[data-messages-page-list]');
-    const empty = document.querySelector('[data-empty-messages]');
-    if (!list || !empty) {
-      return;
-    }
-
-    function getStoredMessages() {
-      try {
-        return JSON.parse(window.localStorage.getItem('campusloop-messages')) || [];
-      } catch (error) {
-        return [];
-      }
-    }
-
-    const messages = getStoredMessages();
-    empty.hidden = messages.length !== 0;
-    messages.slice().reverse().forEach(function (message) {
-      const row = document.createElement('a');
-      row.className = 'campusloop-message-row campusloop-message-link';
-      row.href = message.productId ? '/product/' + encodeURIComponent(message.productId) : '/';
-      row.innerHTML = [
-        '<strong></strong>',
-        '<span></span>',
-        '<small></small>'
-      ].join('');
-      row.querySelector('strong').textContent = message.product || 'CampusLoop item';
-      row.querySelector('span').textContent = message.text || '';
-      row.querySelector('small').textContent = message.reply || 'Seller reply pending';
-      list.appendChild(row);
-    });
-  }());
-</script>
+<section class="campusloop-dashboard-card">
+<div class="campusloop-dashboard-header"><div><p class="campusloop-eyebrow">CampusLoop</p><h1>Messages</h1></div><a href="/" class="campusloop-button campusloop-button-secondary">Browse items</a></div>
+<p id="chat-status" role="status" aria-live="polite"></p>
+<div class="campusloop-inbox">
+<nav id="chat-conversations" aria-label="Conversations"></nav>
+<section id="chat-thread" hidden><h2 id="chat-title"></h2><a id="chat-item">View item</a><p>Showing the latest 100 messages.</p>
+<div id="chat-messages" role="log" aria-live="polite" aria-label="Conversation messages"></div>
+<form id="chat-form"><label for="chat-body">Message</label><textarea id="chat-body" maxlength="2000" rows="3" required></textarea><button class="campusloop-button campusloop-button-primary" type="submit">Send</button></form>
+</section></div>
+</section></main>
+<script src="/static/js/chat.js"></script>
 
 
 <footer class="py-5">

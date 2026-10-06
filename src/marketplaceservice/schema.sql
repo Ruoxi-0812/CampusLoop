@@ -42,3 +42,25 @@ CREATE TABLE IF NOT EXISTS marketplace_reservation_events (
 
 ALTER TABLE marketplace_listings ADD COLUMN IF NOT EXISTS metadata jsonb NOT NULL DEFAULT '{}'::jsonb;
 ALTER TABLE marketplace_users ADD COLUMN IF NOT EXISTS display_name text NOT NULL DEFAULT '';
+
+CREATE TABLE IF NOT EXISTS marketplace_conversations (
+ id text PRIMARY KEY,
+ listing_id text NOT NULL REFERENCES marketplace_listings(id),
+ buyer_id text NOT NULL REFERENCES marketplace_users(id),
+ seller_id text NOT NULL REFERENCES marketplace_users(id),
+ created_at timestamptz NOT NULL DEFAULT now(),
+ CHECK (buyer_id <> seller_id),
+ UNIQUE (listing_id, buyer_id)
+);
+CREATE INDEX IF NOT EXISTS marketplace_conversations_seller ON marketplace_conversations(seller_id);
+CREATE INDEX IF NOT EXISTS marketplace_conversations_buyer ON marketplace_conversations(buyer_id);
+CREATE TABLE IF NOT EXISTS marketplace_messages (
+ id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ conversation_id text NOT NULL REFERENCES marketplace_conversations(id),
+ sender_id text NOT NULL REFERENCES marketplace_users(id),
+ client_id text NOT NULL CHECK (char_length(client_id) BETWEEN 1 AND 128),
+ body text NOT NULL CHECK (char_length(body) BETWEEN 1 AND 2000),
+ created_at timestamptz NOT NULL DEFAULT now(),
+ UNIQUE (conversation_id, sender_id, client_id)
+);
+CREATE INDEX IF NOT EXISTS marketplace_messages_conversation ON marketplace_messages(conversation_id,id);

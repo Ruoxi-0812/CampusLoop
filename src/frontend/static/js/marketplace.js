@@ -63,6 +63,7 @@
     const button = document.querySelector('[data-reserve-listing]'); if (!button) return;
     const id = button.dataset.reserveListing;
     const listing = await api('/listings/' + encodeURIComponent(id));
+    if (window.CampusLoopContact) window.CampusLoopContact(listing);
     if (window.CampusLoopRenderProduct) window.CampusLoopRenderProduct(listing);
     const status = document.querySelector('[data-listing-status]'); status.textContent = listing.status;
     const user = getUser();
