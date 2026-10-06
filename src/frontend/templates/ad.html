@@ -15,12 +15,13 @@
 -->
 
 {{ define "text_ad" }}
-<div class="container py-3 px-lg-5 py-lg-5">
-    <div role="alert">
-        <strong>Ad</strong>
-        <a href="{{$.baseUrl}}/product/66VCHSJNUP" rel="nofollow noopener noreferrer">
-            Campus Club Hoodie for sale. 20% off.
-        </a>
-    </div>
-</div>
+<aside class="campusloop-ad" aria-label="Advertisement">
+  <span class="campusloop-ad-label">Ad</span>
+  {{ if .ad }}
+  <a href="{{ .ad.RedirectUrl }}" rel="nofollow">{{ .ad.Text }}</a>
+  {{ else }}
+  <div><strong>Make room for something new.</strong><p>Pass your unused items on to another student.</p></div>
+  <a class="campusloop-ad-link" href="{{ $.baseUrl }}/post-item">Post an item →</a>
+  {{ end }}
+</aside>
 {{ end }}

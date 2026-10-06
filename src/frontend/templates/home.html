@@ -88,7 +88,8 @@
         <!-- Footer for larger screens. -->
         <div class="row d-none d-lg-block home-desktop-footer-row">
           <div class="col-12 p-0">
-            {{ template "footer" . }}
+            {{ template "text_ad" . }}
+{{ template "footer" . }}
           </div>
         </div>
 
@@ -299,7 +300,8 @@
 
 <!-- Footer for smaller screens. -->
 <div class="d-lg-none">
-  {{ template "footer" . }}
+  {{ template "text_ad" . }}
+{{ template "footer" . }}
 </div>
 
 {{ end }}
