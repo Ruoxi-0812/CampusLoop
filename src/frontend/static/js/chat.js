@@ -30,7 +30,11 @@
       form.onsubmit = e => { e.preventDefault(); if (input.value.trim()) answer(input.value.trim()); input.value = ''; };
       panel.append(choices, log, form); return;
     }
-    const user = backend.getUser(); const button = el('button', user && user.id === listing.seller_id ? 'View buyer messages' : 'Message seller', 'campusloop-button campusloop-button-primary'); button.type = 'button';
+    const user = backend.getUser();
+    const own = user && user.id === listing.seller_id;
+    panel.querySelector('summary').textContent = own ? 'Buyer messages' : 'Contact seller';
+    panel.append(el('p', own ? 'This is your listing. Messages from interested buyers will appear in your inbox.' : 'Ask the seller about this item or arrange pickup.', 'campusloop-contact-help'));
+    const button = el('button', user && user.id === listing.seller_id ? 'View buyer messages' : 'Message seller', 'campusloop-button campusloop-button-primary campusloop-contact-action'); button.type = 'button';
     const status = el('p', ''); status.setAttribute('role', 'status');
     button.onclick = async () => {
       if (!backend.getUser()) { signIn(); return; }
@@ -57,7 +61,7 @@
           listSignature = next;
         }
         const c = conversations.find(c => c.id === selected);
-        status.textContent = conversations.length ? (c ? '' : 'Select a conversation.') : 'No conversations yet. Contact a seller from a real item to start chatting.';
+        status.textContent = conversations.length ? (c ? '' : 'Select a conversation.') : 'No conversations yet. Message another seller from their item page, or wait for a buyer to contact you about your listing.';
         thread.hidden = !c;
         if (c) {
           const requested = selected;
