@@ -8,5 +8,10 @@ func main(){
  write:=func(name,html string){html=strings.ReplaceAll(html,"window.CampusLoopBackendConfig = {baseUrl:","window.CampusLoopBackendConfig = {edge: true, baseUrl:");html=strings.ReplaceAll(html,"<script src=\"/static/js/marketplace.js\">","<script src=\"/edge/connection.js\"></script><script src=\"/static/js/marketplace.js\">");lines:=strings.Split(html,"\n");for i:=range lines{lines[i]=strings.TrimRight(lines[i]," \t")};html=strings.Join(lines,"\n");if err:=os.WriteFile(filepath.Join("vercel-demo/edge",name+".html"),[]byte(html),0644);err!=nil{panic(err)}}
  for _,name:=range []string{"signin","post-item","my-listings","messages"}{write(name,render(name))}
  body,err:=os.ReadFile("scripts/edge-export/product-body.html");if err!=nil{panic(err)}
- write("product",render("header")+string(body)+render("footer"))
+ product := string(body)
+ for _,path := range []string{"static/js/chat.js", "edge/product-data.js", "edge/product-preview.js"} {
+  script,err := os.ReadFile(filepath.Join("vercel-demo",path)); if err!=nil{panic(err)}
+  product = strings.ReplaceAll(product, `<script src="/`+path+`"></script>`, "<script>"+string(script)+"</script>")
+ }
+ write("product",render("header")+product+render("footer"))
 }
