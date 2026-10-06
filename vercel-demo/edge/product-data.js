@@ -9,7 +9,7 @@
     const image = document.getElementById('preview-image');
     image.src = /^\/(static\/|api\/marketplace\/listings\/)/.test(item.metadata?.image || '') ? item.metadata.image : '/static/icons/listing-no-photo.svg';
     image.alt = item.title; image.hidden = false;
-    document.getElementById('preview-label').textContent = item.seller_id === 'campusloop-demo-seller' ? 'Sample item. Create an account to publish your own listing.' : '';
+    document.getElementById('preview-label').textContent = item.seller_id === 'campusloop-demo-seller' ? 'Sample · simulated chat' : '';
     document.getElementById('product-pickup').textContent = item.pickup || '';
     const contact = document.getElementById('product-contact'); if (contact) contact.textContent = item.metadata?.contact || '';
     document.getElementById('product-handoff').textContent = [item.metadata?.campus,item.metadata?.handoff,item.metadata?.address].filter(Boolean).join(' · ');

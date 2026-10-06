@@ -2209,3 +2209,6 @@ the rules below could be extracted.
 .campusloop-contact-panel .campusloop-contact-action { display: inline-flex; align-items: center; justify-content: center; margin: 0 0 4px; padding: 12px 20px; min-height: 44px; border: 0; border-radius: 10px; font: inherit; font-size: 14px; font-weight: 600; box-shadow: none; cursor: pointer; }
 .campusloop-contact-panel .campusloop-contact-action:focus-visible { outline: 2px solid #7955ba; outline-offset: 3px; }
 .campusloop-contact-panel p:empty { display: none; }
+
+#preview-label { font-size: 12px; color: #726c7c; margin: 12px 0; }
+#preview-label:empty, .campusloop-status-pill:empty { display: none; }

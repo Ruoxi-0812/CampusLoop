@@ -8,24 +8,23 @@
     if (!panel || panel.dataset.chatReady === listing.id) return;
     panel.dataset.chatReady = listing.id;
     const sample = listing.seller_id === 'campusloop-demo-seller';
-    panel.replaceChildren(el('summary', sample ? 'Try demo chat' : 'Contact seller'));
+    panel.replaceChildren(el('summary', sample ? 'Chat preview' : 'Contact seller'));
     if (sample) {
-      panel.append(el('p', 'Demo chat — automated sample replies, not a real seller.'));
       const log = el('div', '', 'campusloop-demo-chat'); log.setAttribute('role', 'log'); log.setAttribute('aria-live', 'polite');
-      log.append(el('p', 'Demo seller: Hi! Ask about availability or campus pickup.'));
+      log.append(el('p', 'Reply: Hi! Ask about availability or campus pickup.'));
       const answer = text => {
         log.append(el('p', 'You: ' + text));
-        let reply = 'This is a sample conversation. Publish a real item to chat with other students.';
-        if (/available|still/i.test(text)) reply = 'Yes, this sample item is available for a demo reservation.';
-        else if (/where|pickup|pick up|location/i.test(text)) reply = 'For this demo, pickup is at ' + (listing.pickup || 'Snell Library lobby') + '.';
-        else if (/when|time/i.test(text)) reply = 'In this demo, weekdays after 5pm work for pickup.';
-        log.append(el('p', 'Demo seller: ' + reply));
+        let reply = 'You can ask about availability, pickup location, or timing.';
+        if (/available|still/i.test(text)) reply = 'Yes, it is available.';
+        else if (/where|pickup|pick up|location/i.test(text)) reply = 'Pickup is at ' + (listing.pickup || 'Snell Library lobby') + '.';
+        else if (/when|time/i.test(text)) reply = 'Weekdays after 5pm work for pickup.';
+        log.append(el('p', 'Reply: ' + reply));
         while (log.children.length > 30) log.firstChild.remove();
         log.scrollTop = log.scrollHeight;
       };
       const choices = el('div', '', 'campusloop-message-chips');
       for (const text of ['Is this still available?', 'Where can I pick this up?', 'What time works?']) { const b = el('button', text); b.type = 'button'; b.onclick = () => answer(text); choices.append(b); }
-      const form = el('form', '', 'campusloop-chat-form'); const input = document.createElement('input'); input.placeholder = 'Try a demo message…'; input.setAttribute('aria-label', 'Demo message'); input.maxLength = 2000; input.required = true;
+      const form = el('form', '', 'campusloop-chat-form'); const input = document.createElement('input'); input.placeholder = 'Write a message…'; input.setAttribute('aria-label', 'Message'); input.maxLength = 2000; input.required = true;
       const send = el('button', 'Send'); send.type = 'submit'; form.append(input, send);
       form.onsubmit = e => { e.preventDefault(); if (input.value.trim()) answer(input.value.trim()); input.value = ''; };
       panel.append(choices, log, form); return;

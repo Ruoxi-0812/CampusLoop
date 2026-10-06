@@ -36,7 +36,7 @@
     const img = document.createElement('img'); img.alt = listing.title; img.loading = 'lazy';
     // Only same-origin uploaded images and bundled assets are supported.
     img.src = /^\/(static\/|api\/marketplace\/listings\/)/.test(metadata.image || '') ? metadata.image : '/static/icons/listing-no-photo.svg';
-    link.append(img, node('span', '$' + (listing.price_cents / 100).toFixed(2), 'campusloop-price-pill'), node('span', listing.seller_id === 'campusloop-demo-seller' ? 'Sample item' : listing.status, 'campusloop-status-pill'));
+    link.append(img, node('span', '$' + (listing.price_cents / 100).toFixed(2), 'campusloop-price-pill'), node('span', listing.seller_id === 'campusloop-demo-seller' ? '' : listing.status, 'campusloop-status-pill'));
     const body = node('div', '', 'campusloop-card-body'); const footer = node('div', '', 'campusloop-card-footer');
     footer.append(node('span', listing.seller_id === 'campusloop-demo-seller' ? 'Northeastern' : (metadata.campus || 'Northeastern')), node('span', 'View item'));
     body.append(node('div', listing.title, 'hot-product-card-name'), footer); inner.append(link, body); outer.append(inner); return outer;
