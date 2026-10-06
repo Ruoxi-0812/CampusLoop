@@ -32,6 +32,17 @@
     status.textContent = message;
     status.hidden = !message;
   }
+  function cacheListing(listing) {
+    try {
+      sessionStorage.setItem('campusloop-product-' + listing.id, JSON.stringify(listing));
+      const old = JSON.parse(sessionStorage.getItem('campusloop-listing-preview'));
+      if (Array.isArray(old)) {
+        const index = old.findIndex(item => item.id === listing.id);
+        if (index >= 0) old[index] = listing; else old.unshift(listing);
+        sessionStorage.setItem('campusloop-listing-preview', JSON.stringify(old));
+      }
+    } catch (_) {}
+  }
   async function logout() { try { await api('/logout', {method: 'POST'}); } catch (e) { if (e.status !== 401) { show(e.message); return; } } sessionStorage.removeItem(tokenKey); sessionStorage.removeItem(userKey); location.assign(base + '/'); }
   window.CampusLoopBackend = { getUser, api, logout };
   function element(tag, text, className) { const node = document.createElement(tag); node.textContent = text; if (className) node.className = className; return node; }
@@ -63,6 +74,7 @@
     const button = document.querySelector('[data-reserve-listing]'); if (!button) return;
     const id = button.dataset.reserveListing;
     const listing = await api('/listings/' + encodeURIComponent(id));
+    cacheListing(listing);
     if (window.CampusLoopContact) window.CampusLoopContact(listing);
     if (window.CampusLoopRenderProduct) window.CampusLoopRenderProduct(listing);
     const status = document.querySelector('[data-listing-status]'); status.textContent = listing.status;
@@ -101,6 +113,7 @@
           const values = new FormData(post); const metadata = {}; for (const key of ['category','city','campus','dorm','address','contact','handoff']) metadata[key] = String(values.get(key)||'').trim();
           const file = post.elements.image.files[0]; if (file) { if (file.size > 2*1024*1024 || !['image/png','image/jpeg','image/webp','image/gif'].includes(file.type)) throw new Error('Choose a PNG, JPEG, GIF or WebP image smaller than 2 MB.'); metadata.image = await new Promise((resolve,reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = () => reject(new Error('Could not read image')); reader.readAsDataURL(file); }); }
           const l = await api('/listings',{method:'POST',body:{title:String(values.get('name')).trim(),description:String(values.get('description')).trim(),price_cents:Math.round(Number(values.get('price'))*100),pickup:String(values.get('pickup')).trim(),metadata}});
+          cacheListing(l);
           location.assign(base + '/product/' + l.id);
         } catch (e) { show(e.message); button.disabled = false; }
       };

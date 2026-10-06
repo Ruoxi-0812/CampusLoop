@@ -41,16 +41,7 @@
     footer.append(node('span', listing.seller_id === 'campusloop-demo-seller' ? 'Northeastern' : (metadata.campus || 'Northeastern')), node('span', 'View item'));
     body.append(node('div', listing.title, 'hot-product-card-name'), footer); inner.append(link, body); outer.append(inner); return outer;
   }
-  async function load() {
-    message.parentElement.hidden = true;
-    retry.hidden = true; message.textContent = 'Connecting to the marketplace… You can browse sample items while we connect.';
-    try {
-      const result = await CampusLoopConnection('/api/marketplace/listings', (text, response) => {
-        if (!(response.headers.get('content-type') || '').includes('application/json')) return false;
-        try { return Array.isArray(JSON.parse(text)); } catch (_) { return false; }
-      });
-      const listings = JSON.parse(result.text);
-      try { sessionStorage.setItem('campusloop-listing-preview', JSON.stringify(listings)); } catch (_) {}
+  function render(listings) {
       // Keep bundled samples in their initial order; retain API order for new listings.
       listings.sort((a, b) => (sampleOrder.get(a.id) ?? -1) - (sampleOrder.get(b.id) ?? -1));
       const existing = new Map(Array.from(grid.children, el => [el.dataset.listingId, el]));
@@ -72,9 +63,22 @@
       });
       existing.forEach(el => el.remove());
       filters();
+      grid.style.visibility = 'visible';
+  }
+  async function load() {
+    message.parentElement.hidden = true;
+    retry.hidden = true; message.textContent = 'Connecting to the marketplace… You can browse sample items while we connect.';
+    try {
+      const result = await CampusLoopConnection('/api/marketplace/listings', (text, response) => {
+        if (!(response.headers.get('content-type') || '').includes('application/json')) return false;
+        try { return Array.isArray(JSON.parse(text)); } catch (_) { return false; }
+      });
+      const listings = JSON.parse(result.text);
+      try { sessionStorage.setItem('campusloop-listing-preview', JSON.stringify(listings)); } catch (_) {}
+      render(listings);
       message.textContent = '';
       message.parentElement.hidden = true;
-    } catch (error) { message.parentElement.hidden = false; message.textContent = error.message + ' Sample items are still available to browse.'; retry.hidden = false; }
+    } catch (error) { grid.style.visibility = 'visible'; message.parentElement.hidden = false; message.textContent = error.message + ' Sample items are still available to browse.'; retry.hidden = false; }
   }
   // Account state uses the same session as the real backend pages, never demo localStorage.
   try {
@@ -85,5 +89,10 @@
     }
   } catch (_) {}
   document.querySelectorAll('a[href="/cart"]').forEach(link => { link.href = '/my-listings'; link.setAttribute('aria-label', 'My listings'); });
+  // Restore the last successful public catalog before requesting fresher data.
+  try {
+    const cached = JSON.parse(sessionStorage.getItem('campusloop-listing-preview'));
+    if (Array.isArray(cached)) render(cached);
+  } catch (_) {}
   retry.onclick = load; filters(); load();
 }());

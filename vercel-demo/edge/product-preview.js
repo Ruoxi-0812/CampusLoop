@@ -4,12 +4,16 @@
   const id = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop());
   let listings = [];
   try { listings = JSON.parse(sessionStorage.getItem('campusloop-listing-preview')) || []; } catch (_) {}
-  const item = listings.find(item => item.id === id) || samples.find(item => item.id === id);
+  let recent = null;
+  try { recent = JSON.parse(sessionStorage.getItem('campusloop-product-' + id)); } catch (_) {}
+  const item = recent || listings.find(item => item.id === id) || samples.find(item => item.id === id);
   if (!item) return;
+  if (window.CampusLoopRenderProduct) window.CampusLoopRenderProduct(item);
+  if (window.CampusLoopContact) window.CampusLoopContact(item);
   document.getElementById('preview-title').textContent = item.title;
   document.getElementById('preview-price').textContent = '$' + (item.price_cents / 100).toFixed(2);
   document.getElementById('preview-description').textContent = item.description;
-  document.getElementById('preview-label').textContent = item.seller_id === 'campusloop-demo-seller' ? 'Sample item.' : 'Previously viewed details. Availability will be checked before reservation.';
+  document.getElementById('preview-label').textContent = item.seller_id === 'campusloop-demo-seller' ? 'Sample item. Create an account to publish your own listing.' : '';
   const image = document.getElementById('preview-image');
   image.src = /^\/(static\/|api\/marketplace\/listings\/)/.test(item.metadata?.image || '') ? item.metadata.image : '/static/icons/listing-no-photo.svg';
   image.alt = item.title; image.hidden = false;
