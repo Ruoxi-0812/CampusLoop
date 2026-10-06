@@ -53,7 +53,7 @@
           if (!sampleOrder.has(listing.id)) el.dataset.categories = fresh.dataset.categories;
           for (const selector of ['.hot-product-card-name', '.campusloop-price-pill', '.campusloop-status-pill', '.campusloop-card-footer span']) {
             const target = el.querySelector(selector), value = fresh.querySelector(selector).textContent;
-            if (target.textContent !== value) target.textContent = value;
+            if (target && target.textContent !== value) target.textContent = value;
           }
           const img = el.querySelector('img'), nextImg = fresh.querySelector('img');
           if (img.getAttribute('src') !== nextImg.getAttribute('src')) img.src = nextImg.getAttribute('src');
