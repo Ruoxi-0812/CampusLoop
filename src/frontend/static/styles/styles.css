@@ -2212,9 +2212,3 @@ the rules below could be extracted.
 
 #preview-label { font-size: 12px; color: #726c7c; margin: 12px 0; }
 #preview-label:empty, .campusloop-status-pill:empty { display: none; }
-
-.campusloop-ad { max-width: 1120px; margin: 24px auto 48px; padding: 22px 28px; display: flex; align-items: center; gap: 24px; border: 1px solid #e2d9ee; border-radius: 14px; background: #faf7ff; color: #291e38; }
-.campusloop-ad-label { font-size: 11px; color: #746a80; border: 1px solid #d9d0e3; border-radius: 4px; padding: 2px 6px; }
-.campusloop-ad p { margin: 4px 0 0; font-size: 14px; color: #746a80; }
-.campusloop-ad-link { margin-left: auto; color: #482188; font-weight: 600; white-space: nowrap; }
-@media (max-width: 700px) { .campusloop-ad { margin: 20px 16px 32px; padding: 18px; flex-wrap: wrap; gap: 12px; } .campusloop-ad-link { margin-left: 0; } }
