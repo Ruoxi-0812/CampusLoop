@@ -103,7 +103,7 @@
 
           {{ if $.marketplaceEnabled }}
           <button type="button" class="cymbal-button-primary" data-reserve-listing="{{ $.listing.ID }}" disabled>Loading availability…</button>
-          <p class="campusloop-checkout-note">Reserve this item, then coordinate campus pickup.</p>
+
           {{ else }}
           <form method="POST" action="{{ $.baseUrl }}/cart">
             <input type="hidden" name="product_id" value="{{$.product.Item.Id}}" />
